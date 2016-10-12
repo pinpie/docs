@@ -24,7 +24,7 @@
 		</header>
 		<p>
 			Скачать любую версию PinPIE можно из <a href="https://github.com/pinpie/pinpie/">репозитория PinPIE</a>.
-			Всегда доступны текущая <a href="https://github.com/pinpie/pinpie/archive/stable.zip">стабильная</a>
+			Всегда доступны текущая <a href="https://github.com/pinpie/pinpie/archive/stable.zip">стабильная (пока недоступна)</a>
 			и <a href="https://github.com/pinpie/pinpie/archive/dev.zip">девелоперская</a> версии.
 		</p>
 	</section>

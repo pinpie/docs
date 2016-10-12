@@ -1,5 +1,5 @@
 * { margin: 0px; padding: 0px; box-sizing: border-box; outline: none; }
-html { font-size: calc( (100vw - 300px)/(1920 - 300) * (22 - 14) + 14px); font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+html { font-size: calc( (100vw - 300px)/(1920 - 300) * (20 - 14) + 14px); font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
 button::-moz-focus-inner, input[type="reset"]::-moz-focus-inner, input[type="button"]::-moz-focus-inner, input[type="submit"]::-moz-focus-inner, input[type="file"] > input[type="button"]::-moz-focus-inner { border: none; }
 /* */
 #menu { width: 20%; }

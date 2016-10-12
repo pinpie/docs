@@ -143,7 +143,7 @@ echo rand(1, 100);')); ?>
       <li>Disabled &mdash; каждый сниппет будет выполняться каждый раз</li>
       <li>Files &mdash; кеш хранится в файлах (по умолчанию)</li>
       <li>Memcached &mdash; это memcached</li>
-      <li>APC &mdash; хранение в хранилище переменных APC</li>
+      <li>APCu &mdash; хранение в хранилище переменных APCu</li>
     </ul>
     <p>
       Место хранения кэша может быть задано в конфиге в <?= scx('$pinpie["cache class"]') ?>.

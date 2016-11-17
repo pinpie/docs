@@ -19,15 +19,6 @@
 
   <section>
     <header>
-      <h1>Disadvantages</h1>
-    </header>
-    <ul>
-      <li>Requires minimal knowledge of PHP and HTML</li>
-    </ul>
-  </section>
-
-  <section>
-    <header>
       <h1>Advantages</h1>
     </header>
     <ul>

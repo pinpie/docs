@@ -1,8 +1,19 @@
 <ul>
-  <li><a href="/en/download">Download</a></li>
   <li>
     <a href="/en/manual">Manual</a>
     <ul>
+      <li>
+        <a href="/en/manual/start">Start</a>
+        [[*menu start]]
+      </li>
+      <li>
+        <a href="/en/manual/server-configuration">Server configuration</a>
+        [[*menu server configuration]]
+      </li>
+      <li>
+        <a href="/en/manual/config">Config</a>
+        [[*menu config]]
+      </li>
       <li>
         <a href="/en/manual/routing">Routing</a>
       </li>
@@ -21,14 +32,6 @@
       <li>
         <a href="/en/manual/cache">Cache</a>
         [[*menu cache]]
-      </li>
-      <li>
-        <a href="/en/manual/config">Config</a>
-        [[*menu config]]
-      </li>
-      <li>
-        <a href="/en/manual/constants">Constants</a>
-        [[*menu constants]]
       </li>
       <li>
         <a href="/en/manual/methods">Methods</a>

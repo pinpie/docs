@@ -2,9 +2,9 @@
 [sidemenu[en/manual/sidemenu]]
 [menu start[=
 <ul>
-	<li><a href="#download">Download</a></li>
 	<li><a href="#composer">Composer</a></li>
 	<li><a href="#standalone">Standalone</a></li>
+	<li><a href="#required-files">Required files</a></li>
 	<li><a href="#launch">Launch</a></li>
 	<li><a href="#config">Config</a></li>
 	<li><a href="#preinclude">preinclude.php</a></li>
@@ -12,22 +12,11 @@
 ]]
 <article>
 	<header>
-		<h1>Start using PinPIE</h1>
+		<h1>
+			<a name="" href="">#</a>
+			Start using PinPIE
+		</h1>
 	</header>
-
-	<section>
-		<header>
-			<h1>
-				<a name="download" href="#download">#</a>
-				Download
-			</h1>
-		</header>
-		<p>
-			You can download any version of PinPIE from <a href="https://github.com/pinpie/pinpie/">PinPIE repo</a>.
-			Always available <a href="https://github.com/pinpie/pinpie/archive/dev.zip">dev</a> version.
-			Current <a href="https://github.com/pinpie/pinpie/archive/stable.zip">stable</a> coming soon.
-		</p>
-	</section>
 
 	<section>
 		<header>
@@ -38,11 +27,15 @@
 		</header>
 		<p>
 			First, install <?= scx('pinpie/pinpie') ?> package and copy basic folder structure
-			from <?= scx('/basic structure', 'html') ?> folder to your project.</p>
+			from <?= scx('/basic structure', 'html') ?> folder to your project.
+		</p>
 		<?= pcx('composer require "pinpie/pinpie"
 composer install', 'html') ?>
 		<p>
 			Second, you should route all requests to single entry point of your project.
+			Usually, it's <?= scx('index.php', 'html') ?> file in the root of your site.
+			In that file you have to start PinPIE engine.
+			Read <a href="#launch">how to launch PinPIE</a> below.
 		</p>
 	</section>
 	<section>
@@ -53,22 +46,27 @@ composer install', 'html') ?>
 			</h1>
 		</header>
 		<p>
-			If you don't use Composer for some reason, you can just download and copy PinPIE files from <?= scx('/src') ?> to your's project folder.
+			If you don't use Composer for some reason, you can just download and copy PinPIE files from <?= scx('/src') ?> to some folder in your project.
 			You can find basic folder structure in <?= scx('/basic structure', 'html') ?> folder of PinPIE package.
 		</p>
 		<p>
-			To run PinPIE it should be included in main entry point of your project,
+			You can download any version of PinPIE from <a href="https://github.com/pinpie/pinpie/">PinPIE repo</a>.
+			Always available current <a href="https://github.com/pinpie/pinpie/archive/stable.zip">stable</a>
+			and a <a href="https://github.com/pinpie/pinpie/archive/dev.zip">dev</a> version.
+		</p>
+		<p>
+			To run PinPIE it should be included in the main entry point of your project,
 			and all requests should be routed to that file.
 			This can be done in web server config. You can find some examples of server configurations
 			in <a href="/en/manual/server-configuration">server config manual</a>.
 			Usually, main entry point is an <?= scx('/index.php') ?> file.
 		</p>
 		<p>To make PinPIE work in standalone mode, this line is required:</p>
-		<?= pcx('include __DIR__."/pinpie/autoload.php";') ?>
+		<?= pcx('include __DIR__ . \'/pinpie/src/autoload.php\';') ?>
 		<p>
 			You are not required to use exactly this path to store PinPIE files.
 			You can put PinPIE files to any other folder you want.
-			Just make sure to include <?= scx('/autoload.php') ?>.
+			Just make sure to include <?= scx('/src/autoload.php') ?>.
 		</p>
 	</section>
 
@@ -80,10 +78,22 @@ composer install', 'html') ?>
 			</h1>
 		</header>
 		<p>
-			PinPIE requires some files to work properly. PinPIE will look for an index page at <?= scx('/pages/index.php') ?>
-			and will need a default template located in <?= scx('/templates/default.php', 'html') ?>
-			with a placeholder <?= scx('[[*content]]') ?> to draw a content of a page.
+			PinPIE require only one file to work properly. PinPIE will look for an index page at <?= scx('/pages/index.php') ?>.
+			There is no other files required to start using PinPIE.
 		</p>
+
+		<p>Basic folder structure (default):</p>
+		<?= pcx('/
+├── chunks/                              chunks folder
+├── config/                              config folder
+├── filecache/                           used only if filecache enabled
+├── pages/                               pages files should be located here
+├── pinpie/                              possible place to store PinPIE files in case of standalone install
+├── snippets/                            folder to store snippets
+└── templates/                           folder for page wrappers', 'html') ?>
+
+		<p>Every that path can be changed in config. Even a config path.</p>
+
 	</section>
 
 	<section>
@@ -93,10 +103,10 @@ composer install', 'html') ?>
 				Launch
 			</h1>
 		</header>
-		<p>In most cases, this code is enough to run PiPIE:</p>
+		<p>In most cases, this code is enough to run PinPIE:</p>
 		<?= pcx('\pinpie\pinpie\PinPIE::newInstance();', 'PHP') ?>
 		<p>To make usage of PinPIE class more convenient, you can make it globally accessible with class_alias() function:</p>
-		<?= pcx('class_alias("\pinpie\pinpie\PinPIE", "PinPIE");
+		<?= pcx('class_alias(\'\pinpie\pinpie\PinPIE\', \'PinPIE\');
 PinPIE::newInstance();', 'PHP') ?>
 	</section>
 
@@ -108,7 +118,7 @@ PinPIE::newInstance();', 'PHP') ?>
 			</h1>
 		</header>
 		<p>
-			PinPIE have no obligatory settings and will work with an empty config, or even without it.
+			PinPIE has no obligatory settings and will work with an empty config, or even without it.
 			Read more about configuration in <a href="/en/manual/config">PinPIE config docs</a>.
 		</p>
 	</section>

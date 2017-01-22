@@ -4,7 +4,7 @@
   <li>
     <a href="/en/examples">Examples</a>
     <ul>
-      <li><a href="/en/examples/important"><pre>!important</pre></a></li>
+      <li><a href="/en/examples/important"><pre>!important;</pre></a></li>
       <li><a href="/en/examples/simplest">Simplest</a></li>
       <li><a href="/en/examples/basic">Basic</a></li>
     </ul>

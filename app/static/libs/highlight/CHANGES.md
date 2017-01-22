@@ -1035,7 +1035,7 @@ The version to fulfil old promises.
 
 The most significant change is that highlight.js now preserves custom user
 markup in code along with its own highlighting markup. This means that now it's
-possible to use, say, links in code. Thanks to [Vladimir Dolzhenko][vd] for the
+possible to use, say, navLinks in code. Thanks to [Vladimir Dolzhenko][vd] for the
 [initial proposal][1] and for making a proof-of-concept patch.
 
 Also in this version:

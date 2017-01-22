@@ -19,7 +19,12 @@
 </ul>
 ]]
 <article>
-	<header><h1>Cache</h1></header>
+	<header>
+		<h1>
+			<a name="" href="">#</a>
+			Cache
+		</h1>
+	</header>
 	<p>
 		PinPIE provides clear and controllable <a href="/en/manual/tags#snippet" title="See tags manual">snippet</a> caching.</p>
 	<p>

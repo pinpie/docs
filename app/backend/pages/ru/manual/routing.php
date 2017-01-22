@@ -15,11 +15,11 @@
       <li>Если такого нет, то проверяется путь <span><code>/pages/about/index.php</span></code>.</li>
     </ul>
     <p>
-      Если ничего не было найдено, то заинклудится <?= scx('PinPIE::$conf->pinpie["page not found"]') ?>, и будет автоматически
+      Если ничего не было найдено, то заинклудится путь из конфига <?= scx('$pinpie["page not found"]') ?>, и будет автоматически
       установлен 404 код ответа HTTP.
     </p>
     <p>
-      По умолчанию значение <?= scx('PinPIE::$conf->pinpie["page not found"]') ?> это <span><code class="html">index.php</span></code>.
+      По умолчанию значение <?= scx('$pinpie["page not found"]') ?> это <span><code class="html">index.php</span></code>.
       Но крайне <b>настоятельно рекомендую создать специальную страницу</b> для обработки ненайденных страниц.
       Она будет отображаться в ответ на эти запросы.
     </p>

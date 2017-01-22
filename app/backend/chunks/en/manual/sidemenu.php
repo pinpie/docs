@@ -16,6 +16,7 @@
       </li>
       <li>
         <a href="/en/manual/routing">Routing</a>
+	      [[*menu routing]]
       </li>
       <li>
         <a href="/en/manual/tags">Tags</a>

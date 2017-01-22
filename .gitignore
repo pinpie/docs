@@ -1,2 +1,4 @@
 .idea
 .svn/
+/app/backend/vendor
+/app/backend/pinpie

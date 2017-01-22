@@ -1,4 +1,4 @@
-<div id="disqus_thread"></div>
+<div id="disqus_thread" style="min-height: 324px;"></div>
 <script>
   <?php
   $path = json_encode(h(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)));

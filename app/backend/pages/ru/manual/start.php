@@ -24,8 +24,8 @@
 		</header>
 		<p>
 			Скачать любую версию PinPIE можно из <a href="https://github.com/pinpie/pinpie/">репозитория PinPIE</a>.
-			Всегда доступны текущая <a href="https://github.com/pinpie/pinpie/archive/stable.zip">стабильная (пока недоступна)</a>
-			и <a href="https://github.com/pinpie/pinpie/archive/dev.zip">девелоперская</a> версии.
+			Всегда доступна текущая <a href="https://github.com/pinpie/pinpie/archive/dev.zip">девелоперская</a> версия.
+			Последняя <a href="https://github.com/pinpie/pinpie/archive/stable.zip">стабильная</a> пока недоступна.
 		</p>
 	</section>
 
@@ -38,7 +38,8 @@
 		</header>
 		<p>
 			Для начала работы добавьте и установите пакет <?= scx('pinpie/pinpie') ?> и скопируйте базовую структуру
-			папок из <?= scx('basic structure', 'html') ?> в свой проект.</p>
+			папок из <?= scx('basic structure', 'html') ?> в свой проект.
+		</p>
 		<?= pcx('composer require "pinpie/pinpie"
 composer install', 'html') ?>
 		<p>
@@ -54,7 +55,7 @@ composer install', 'html') ?>
 		</header>
 		<p>
 			Если по каким-то причинам вы не используете composer, то можете скачать и скопировать файлы PinPIE из <?= scx('/src') ?>
-			в удобное для вас место.
+			в удобное для вас место. Структура папок можно найти в папке <?= scx('/basic structure', 'html') ?> в репозитории.
 		</p>
 		<p>
 			Для запуска PinPIE необходимо инклудить его в главной точке входа вашего проекта,
@@ -65,8 +66,27 @@ composer install', 'html') ?>
 			Обычно, главная точка входа в код сайта это "/index.php".
 		</p>
 		<p> Чтобы PinPIE начал работать, внутри этого файла должна быть такая строчка:</p>
-		<?= pcx('include "./pinpie/autoload.php";') ?>
-		<p>Вы не обязаны размещать файлы PinPIE в этой папке. Можете размещать их там, где вам удобнее.</p>
+		<?= pcx('include __DIR__."/pinpie/autoload.php";') ?>
+		<p>
+			Вы не обязаны размещать файлы PinPIE в этой папке.
+			Можете размещать их там, где вам удобнее.
+			Главное подключите <?= scx('/autoload.php') ?>.
+		</p>
+	</section>
+
+	<section>
+		<header>
+			<h1>
+				<a name="required-files" href="#required-files">#</a>
+				Обязательные файлы
+			</h1>
+		</header>
+		<p>
+			Для правильной работы PinPIE необходимы некоторые файлы.
+			PinPIE ожидает, что путь к файлу главной страницы будет  <?= scx('/templates/default.php', 'html') ?>,
+			что дефолтный темплейт лежит это <?= scx('/templates/default.php', 'html') ?>,
+			и в нём есть плейсхолдер <?= scx('[[*content]]') ?>, на месте которого будет выводиться контент страницы.
+		</p>
 	</section>
 
 	<section>
@@ -79,7 +99,7 @@ composer install', 'html') ?>
 		<p>Для запуска работы PinPIE в большинстве случаев достаточно кода:</p>
 		<?= pcx('\pinpie\pinpie\PinPIE::newInstance();', 'PHP') ?>
 		<p>Для удобства работы можно сделать класс PinPIE глобально доступным с помощью функции class_alias():</p>
-		<?= pcx('class_alias("\pinpie\pinpie\PinPIE", "PinPIE");
+		<?= pcx('class_alias(\'\pinpie\pinpie\PinPIE\', \'PinPIE\');
 PinPIE::newInstance();', 'PHP') ?>
 	</section>
 

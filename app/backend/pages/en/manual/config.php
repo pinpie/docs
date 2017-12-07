@@ -24,7 +24,6 @@
 		Settings could be stored in files or be passed directly into the constructor as array.
 		PinPIE doesn't require any configuration to run if <a href="/en/manual#file-structure">basic folder structure</a> is used.
 	</p>
-
 	<section>
 		<header>
 			<h1>
@@ -48,7 +47,6 @@
 			</h1>
 		</header>
 		<p>
-
 			PinPIE can read configuration from a php-file.
 			All config files are stored in <?= scx('/config') ?> folder.
 			By default, on every request config file is chosen according to the server name.
@@ -62,9 +60,9 @@
 			in the same place, without risk to put dev settings into the production environment.
 		</p>
 		<p>
-			To create a configuration file you have to create a file in <?= scx('/config') ?> folder and name this file like your server and give it a ".php" extension, e.g. <?= scx('/config/mysite.com.php') ?>.
+			To create a configuration file you have to create a file in <?= scx('/config') ?> folder
+			and name this file like your server and give it a ".php" extension, e.g. <?= scx('/config/mysite.com.php') ?>.
 		</p>
-
 		<p>To start working with PinPIE no settings nor files are required.</p>
 	</section>
 
@@ -77,7 +75,7 @@
 		</header>
 		<p>
 			Configuration also can be set when PinPIE starts.
-			It can be passed as associative array to <?= scx('PinPIE::NewInstance($settings)', 'PHP') ?>
+			It can be passed as associative array to <?= scx('PinPIE::renderPage($settings)', 'PHP') ?>
 			or directly to PP class constructor <?= scx('new PP($settings)', 'PHP') ?>.
 		</p>
 		<p>Any settings, passed directly, have higher priority and overwrites thous from file.</p>
@@ -135,14 +133,18 @@
 			<li><?= scx('$pinpie') ?> &mdash; array to store PinPIE settings.</li>
 			<li><?= scx('$tags') ?> &mdash; tags settings array (see <a href="/en/manual/tags">Tags manual section</a>).</li>
 			<li>
-				<?= scx('$oth') ?> &mdash; array for your custom settings, you can store here any settings you need,
-				and access it by <?= scx('PinPIE::$conf->oth', 'php') ?> anywhere.
+				<?= scx('$other') ?> &mdash; array for your custom settings, you can store here any settings you need,
+				and access it by <?= scx('PinPIE::$config->$other', 'php') ?> anywhere.
 			</li>
-			<li><?= scx('$databases') ?> &mdash; store here settings to connect to your databases. You can access them through <?= scx('PinPIE::$conf->databases', 'php') ?>.</li>
+			<li>
+				<?= scx('$databases') ?> &mdash; store here settings to connect to your databases. You can access them through <?= scx('PinPIE::$config->databases', 'php') ?>.
+			</li>
 			<li><?= scx('$cache') ?> &mdash; cacher settings array (read about <a href="/en/manual/cache">Cache</a>).</li>
 			<li><?= scx('$debug') ?> &mdash; enables debug output, by default it is false. Set to true to enable.</li>
 		</ul>
-		<p>If you <a href="/en/manual/start#launch" title="Read how to make PinPIE global">use class_alias() for PinPIE class</a>, they will be accessible globally through <?= scx('PinPIE::$conf') ?>.</p>
+		<p>
+			If you <a href="/en/manual/start#launch" title="Read how to make PinPIE global">use class_alias() for PinPIE class</a>, they will be accessible globally through <?= scx('PinPIE::$config') ?>.
+		</p>
 	</section>
 
 	<section>
@@ -152,7 +154,10 @@
 				Default PinPIE settings
 			</h1>
 		</header>
-		<p>There are not so many settings PinPIE need to work. Here are the defaults from <?= scx('Config.php', 'html') ?> class:</p>
+		<p>
+			There are not so many settings PinPIE need to work. Here are the defaults from
+			<?= scx('Config.php', 'html') ?> class:
+		</p>
 		<?= pcx('$pinpie = [
   "cache class" => false,
   "cache rules" => [
@@ -160,7 +165,7 @@
     200 => ["ignore url" => false, "ignore query params" => []],
     404 => ["ignore url" => true, "ignore query params" => []]
   ],
-  "cache forever time" => PHP_INT_MAX,
+  "cache forever time" => 315360000,
   "codepage" => "utf-8",
   "index file name" => "index.php",
   "log" => [
@@ -212,9 +217,9 @@ $tags = [
 ];
 
 $cache = []; // Settings for current cacher
-$oth = []; // You can put some custom setting here
+$other = []; // You can put some custom setting here
 $databases = []; // To store database settings
-$debug = false; // Enables PinPIE::report() output. You can use it to enable your own debug mode. Globally available through PinPIE::$conf->debug.', 'php') ?>
+$debug = false; // Enables PinPIE::report() output. You can use it to enable your own debug mode. Globally available through PinPIE::$config->debug.', 'php') ?>
 	</section>
 
 	<section>
@@ -238,7 +243,8 @@ $debug = false; // Enables PinPIE::report() output. You can use it to enable you
 			<li>cache class &mdash; sets the <a href="/en/manual/cache#set">cacher class</a></li>
 			<li>cache forever time &mdash; defines the length of <a href="/en/manual/cache#usage">eternity</a> (in seconds)</li>
 			<li>
-				cache rules &mdash; <a href="/en/manual/cache#cache-rules">Cache rules</a> created to prevent cache bloating in cases with big amount of unique requests.
+				cache rules &mdash; <a href="/en/manual/cache#cache-rules">Cache rules</a> created to prevent cache bloating in cases
+				with big amount of unique requests.
 			</li>
 		</ul>
 		<p>It is highly recommended to read about caching mechanics in <a href="/en/manual/cache">cache docs</a>.</p>
@@ -251,8 +257,7 @@ $debug = false; // Enables PinPIE::report() output. You can use it to enable you
 		</header>
 		<p>
 			PinPIE stores current code page in <?= scx('$pinpie["codepage"]') ?>.
-			You can use its value in your scripts.
-			By default it is "utf-8".
+			You can use its value in your scripts. By default it is "utf-8".
 		</p>
 
 		<header>
@@ -300,9 +305,7 @@ $debug = false; // Enables PinPIE::report() output. You can use it to enable you
 				route to parent
 			</h2>
 		</header>
-		<p>
-			This variable defines url handling. Read more in <a href="/en/manual/routing">routing docs</a>.
-		</p>
+		<p>This variable defines url handling. Read more in <a href="/en/manual/routing">routing docs</a>.</p>
 
 		<header>
 			<h2>
@@ -323,7 +326,7 @@ $debug = false; // Enables PinPIE::report() output. You can use it to enable you
 		</header>
 		<p>
 		<ul>
-			<li>template clear vars after use &mdash; defines if PinPIE have to delete used placeholder values after use, so you could use new ones in other snippet with same template, instead of accumulating values (default).</li>
+			<li>template clear vars after use &mdash; defines if PinPIE have to delete placeholder values after use, so you could use new ones in other snippet with same template, instead of accumulating values (default).</li>
 			<li>template function &mdash; custom user function to render template, which will be called if defined</li>
 			<li>templates folder &mdash; folder where PinPIE will look for template files</li>
 			<li>templates realpath check &mdash; checks if template file really is located in templates folder, instead of some other place</li>
@@ -334,7 +337,7 @@ $debug = false; // Enables PinPIE::report() output. You can use it to enable you
 		<header>
 			<h2>
 				<a name="preinclude" href="#preinclude">#</a>
-				preinclude.php and postinclude.php
+				preinclude.php and postinclude.php files
 			</h2>
 		</header>
 		<p>
@@ -348,7 +351,8 @@ $debug = false; // Enables PinPIE::report() output. You can use it to enable you
 			page file is located and can be changed.
 		</p>
 		<p>
-			Do not place classes autoloader in <?= scx("/preinclude.php") ?>. Use <?= scx("/index.php") ?> instead.
+			Do not place classes autoloader in <?= scx("/preinclude.php") ?>.
+			Use <?= scx("/index.php") ?> instead.
 		</p>
 		<p>
 			Later, when page processing is already finished, PinPIE will try to include <?= scx("/postinclude.php") ?> file.
@@ -375,7 +379,7 @@ $pinpie["postinclude"] = $this->pinpie->root . DIRECTORY_SEPARATOR . "postinclud
 			</h1>
 		</header>
 		<p>
-			In $tags variable, available globaly like <?= scx('PinPIE::$conf->tags') ?>, stored tags settings for PinPIE.
+			In $tags variable, available globaly like <?= scx('PinPIE::$config->tags') ?>, stored tags settings for PinPIE.
 			Read more in <a href="/en/manual/tags">tags section</a> of manual.
 		</p>
 	</section>
@@ -387,16 +391,16 @@ $pinpie["postinclude"] = $this->pinpie->root . DIRECTORY_SEPARATOR . "postinclud
 				Other variables
 			</h1>
 		</header>
-		<h2><b>$oth</b> &mdash; Multiple user settings</h2>
+		<h2><b>$other</b> &mdash; Multiple user settings</h2>
 		<p>
-			If you want, you can store any your settings in <?= scx('$oth') ?> array.
-			It will be globally available through <?= scx('PinPIE::$conf->oth', 'php') ?>.
+			If you want, you can store any your settings in <?= scx('$other') ?> array.
+			It will be globally available through <?= scx('PinPIE::$config->other', 'php') ?>.
 		</p>
 		<h2><b>$databases</b> &mdash; array to store any databases settings</h2>
 		<p>
 			This array is created to store databases access settings.
 			You can use it to provide settings for your databases classes.
-			It will be globally visible like <?= scx('PinPIE::$conf->databases', 'php') ?>.
+			It will be globally visible like <?= scx('PinPIE::$config->databases', 'php') ?>.
 		</p>
 		<h2><b>$cache</b> &mdash; Settings passed to cacher class</h2>
 		<p>
@@ -405,14 +409,9 @@ $pinpie["postinclude"] = $this->pinpie->root . DIRECTORY_SEPARATOR . "postinclud
 		<h2><b>$debug</b> &mdash; Enables debug output.</h2>
 		<p>
 			Read more in <a href="/en/manual/debug">debug docs</a>.
-			Globally available as <?= scx('PinPIE::$conf->debug') ?>.
+			Globally available as <?= scx('PinPIE::$config->debug') ?>.
 			Can be used in your own purposes.
 		</p>
 	</section>
 
 </article>
-
-
-
-
-

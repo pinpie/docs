@@ -1,9 +1,32 @@
 [title[=Методы]]
-[sidemenu[ru/manual/sidemenu]]
+[sidemenu[en/manual/sidemenu]]
+[menu methods[=
+<ul>
+	<li><a href="/ru/manual/methods#cacherGet">cacherGet</a></li>
+	<li><a href="/ru/manual/methods#cacherSet">cacherSet</a></li>
+	<li><a href="/ru/manual/methods#checkPathIsInFolder">checkPathIsInFolder</a></li>
+	<li><a href="/ru/manual/methods#getUrlInfo">getUrlInfo</a></li>
+	<li><a href="/ru/manual/methods#newInstance">newInstance</a></li>
+	<li><a href="/ru/manual/methods#newPage">newPage</a></li>
+	<li><a href="/ru/manual/methods#parseString">parseString</a></li>
+	<li><a href="/ru/manual/methods#report">report</a></li>
+	<li><a href="/ru/manual/methods#reportTags">reportTags</a></li>
+	<li><a href="/ru/manual/methods#templateGet">templateGet</a></li>
+	<li><a href="/ru/manual/methods#templateSet">templateSet</a></li>
+	<li><a href="/ru/manual/methods#varPut">varPut</a></li>
+</ul>
+]]
 <article>
 	<header>
-		<h1>Методы PinPIE</h1>
+		<h1>
+			<a name="" href="">#</a>
+			Методы
+		</h1>
 	</header>
+	<p>
+		Список методов для взаимодействия с PinPIE.
+		Однако, обычно никаких прямых взамимодействий с PinPIE не требуется.
+	</p>
 
 	<section>
 		<header>
@@ -12,7 +35,7 @@
 				PinPIE::cacherGet()
 			</h1>
 		</header>
-		<p>Доступ к текущему кешеру<a href="/ru/manual/cache#custom-cacher">собственный кэшер</a>.</p>
+		<p>Доступ к текущему объекту, выполняющему функции кешера.</p>
 	</section>
 
 	<section>
@@ -24,7 +47,7 @@
 		</header>
 		<p>
 			Позволяет вам использовать <a href="/ru/manual/cache#custom-cacher">собственный кэшер</a>, передав его объект.
-			Обычно кешер задаётся в конфиге, но так тоже можно.
+			Обычно кешер задаётся в <a href="/ru/manual/config#pinpie-cache">конфиге</a>, но так тоже можно.
 		</p>
 	</section>
 
@@ -45,13 +68,41 @@
 	<section>
 		<header>
 			<h1>
+				<a name="getUrlInfo" href="#getUrlInfo">#</a>
+				PinPIE::getUrlInfo
+				<wbr>
+				($template)
+			</h1>
+		</header>
+		<p>Ищет файл страницы соответствующий пути в URL. Возвращает экземпляр объекта URL или false в случае сбоя.</p>
+		<p>В случае, если подходящий файл не был найден, то можешь взять значение из конфига:</p>
+		<?= pcx('PinPIE::$config->pinpie["page not found"]') ?>
+	</section>
+
+	<section>
+		<header>
+			<h1>
 				<a name="newinstance" href="#newinstance">#</a>
-				PinPIE::newInstance($settings)
+				PinPIE::renderPage($settings)
 			</h1>
 		</header>
 		<p>
 			Создаёт экземпляр движка. Используется для работы в привычном окружении, где PHP реинициализируется при каждом запросе.
 			<a href="/ru/manual/config#config-direct">Read more..</a>
+		</p>
+	</section>
+
+	<section>
+		<header>
+			<h1>
+				<a name="newPage" href="#newPage">#</a>
+				PinPIE::newPage
+				<wbr>
+				($page)
+			</h1>
+		</header>
+		<p>
+			Позволяет вывести другую страницу вместо текущей. Пока толком нигде не опробовано, но работает как часы.
 		</p>
 	</section>
 
@@ -78,8 +129,23 @@
 		</header>
 		<p>
 			Выводит дебаг-отчет: время выполнения тегов; из кэша или нет; ошибки; и полный список тегов со всеми их внутренними
-			данными. Некоторые отчеты выводятся через var_dump(), так что рекомендую Xdebug &mdash; он сделает всё красивым.
+			данными. Используется для отладки. Установи $debug = true в конфиге, чтобы включить вывод дебага. По умолчанию ничего не делает и возвращает false.
+		</p>
+		<p>
+			Некоторые отчеты выводятся через var_dump(), так что рекомендую Xdebug &mdash; он сделает всё красивым.
 			Но не забудьте выключить Xdebug на продакшене, так как он сильно снижает производительность.
+		</p>
+	</section>
+
+	<section>
+		<header>
+			<h1>
+				<a name="reportTags" href="#reportTags">#</a>
+				PinPIE::reportTags()
+			</h1>
+		</header>
+		<p>
+			Выводит дамп тегов и их параметры. Используется для отладки. Установи $debug = true в конфиге, чтобы включить вывод дебага. По умолчанию ничего не делает и возвращает false.
 		</p>
 	</section>
 
@@ -118,29 +184,6 @@
 		<?= pcx('[[*pltest]]') ?>
 		<p>Вывод:</p>
 		<?= pcx('some text', 'html') ?>
-	</section>
-
-	<section>
-		<header>
-			<h1>
-				<a name="findpagefile" href="#findpagefile">#</a>
-				PinPIE::findPageFile($template)
-			</h1>
-		</header>
-		<p>Ищет и возвращает файл страницы, соответствующий <?= scx('$url') ?>, или <?= scx('false') ?> в случае невозможности его найти.</p>
-	</section>
-
-	<section>
-		<header>
-			<h1>
-				<a name="newpage" href="#newpage">#</a>
-				PinPIE::newPage($page)
-			</h1>
-			<b><i>experimental</i></b>
-		</header>
-		<p>
-			Позволяет вывести другую страницу вместо текущей. Пока толком нигде не опробовано, но работает как часы.
-		</p>
 	</section>
 
 </article>

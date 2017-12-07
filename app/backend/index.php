@@ -1,7 +1,6 @@
 <?php
 ini_set('display.errors', -1);
 
-
 include './functions.php';
 //include './pinpie/pinpie.php';
 //include './pinpie.new/standalone.php';
@@ -17,4 +16,4 @@ exit(1);*/
 
 
 class_alias('\pinpie\pinpie\PinPIE', 'PinPIE');
-PinPIE::newInstance();
+PinPIE::renderPage();

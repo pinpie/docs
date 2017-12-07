@@ -52,19 +52,18 @@
 		article > header { padding-top: 0; padding-bottom: 0.1rem; margin-bottom: 1rem; border-bottom: 1px solid #eeeeee; }
 		/* * * Section */
 		section h1 { font-weight: 500; font-size: 1.5rem; margin-top: 3rem; margin-bottom: 0.5rem; }
-		section h2 { font-weight: 500; font-size: 1.25rem; margin-top: 1rem; margin-bottom: 0.5rem; }
+		section h2 { font-weight: 500; font-size: 1.25rem; margin-top: 2rem; margin-bottom: 0.5rem; }
 		section h3 { font-weight: 500; font-style: italic; font-size: 1rem; margin-top: 1rem; margin-bottom: 0.5rem; }
 		section p { margin-bottom: 0.5rem; }
 		section ol, section ul { padding-left: 1rem; margin-bottom: 0.5rem; }
 		/* * Code blocks */
-		span > code, span > code.hljs { display: inline; padding: 0 0.3rem; background: #f8f8f8; font-size: 90%; border-radius: 0.3rem; }
+		span > code, span > code.hljs { display: inline; padding: 0.1rem 0.3rem; background: #f8f8f8; font-size: 90%; border-radius: 0.1rem; }
 		span > code a { color: inherit; text-decoration: underline; }
-		pre > code { display: block; overflow: auto; margin: 0 0 0.5rem; padding: 0.5em; border: 1px solid lightgrey; }
-		pre > code.hljs { background: inherit; }
+		pre > code { display: block; overflow: auto; margin: 0 0 0.5rem; padding: 0.5em; background: #23241f; color: #f8f8f2;     border-radius: 7px;}
 		pre > code a { color: inherit; text-decoration: underline; }
 		/* Desktop layout */
 		@media (min-width: 1281px) {
-			html { font-size: 16px; }
+			html { font-size: 14px; }
 			.HolyGrail-body { -webkit-flex-direction: row; -webkit-flex: 1; flex-direction: row; flex: 1; padding: 0; }
 			.HolyGrail-content { -webkit-flex: 1; flex: 1; min-width: 1px; }
 			.HolyGrail-nav, .HolyGrail-ads { -webkit-flex: 0 0 20vw; flex: 0 0 20vw; font-size: 110%; }
@@ -77,122 +76,128 @@
 			#menu-trigger { display: none; }
 		}
 		footer { padding: 3rem 20% 1rem; }
-		footer .logo { display: inline-block; float: left; padding-right: 3rem;}
-		footer .logo img {margin-bottom: -5px;}
+		footer .logo { display: inline-block; float: left; padding-right: 3rem; }
+		footer .logo img { margin-bottom: -5px; }
 	</style>
 
-	<style>
-		/*
+	<style>/*
 
-github.com style (c) Vasily Polovnyov <vast@whiteants.net>
+Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-license.org/
 
 */
 
-		.hljs {
-			display: block;
-			overflow-x: auto;
-			padding: 0.5em;
-			color: #333;
-			background: #f8f8f8;
-		}
-		.hljs-comment,
-		.hljs-quote {
-			color: #998;
-			font-style: italic;
-		}
-		.hljs-keyword,
-		.hljs-selector-tag,
-		.hljs-subst {
-			color: #333;
-			font-weight: bold;
-		}
-		.hljs-number,
-		.hljs-literal,
-		.hljs-variable,
-		.hljs-template-variable,
-		.hljs-tag .hljs-attr {
-			color: #008080;
-		}
-		.hljs-string,
-		.hljs-doctag {
-			color: #d14;
-		}
-		.hljs-title,
-		.hljs-section,
-		.hljs-selector-id {
-			color: #900;
-			font-weight: bold;
-		}
-		.hljs-subst {
-			font-weight: normal;
-		}
-		.hljs-type,
-		.hljs-class .hljs-title {
-			color: #458;
-			font-weight: bold;
-		}
-		.hljs-tag,
-		.hljs-name,
-		.hljs-attribute {
-			color: #000080;
-			font-weight: normal;
-		}
-		.hljs-regexp,
-		.hljs-link {
-			color: #009926;
-		}
-		.hljs-symbol,
-		.hljs-bullet {
-			color: #990073;
-		}
-		.hljs-built_in,
-		.hljs-builtin-name {
-			color: #0086b3;
-		}
-		.hljs-meta {
-			color: #999;
-			font-weight: bold;
-		}
-		.hljs-deletion {
-			background: #fdd;
-		}
-		.hljs-addition {
-			background: #dfd;
-		}
-		.hljs-emphasis {
-			font-style: italic;
-		}
-		.hljs-strong {
-			font-weight: bold;
-		}
+pre .hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  background: #23241f;
+}
 
+pre .hljs,
+pre .hljs-tag,
+pre .hljs-subst {
+  color: #f8f8f2;
+}
+
+pre .hljs-strong,
+pre .hljs-emphasis {
+  color: #a8a8a2;
+}
+
+pre .hljs-bullet,
+pre .hljs-quote,
+pre .hljs-number,
+pre .hljs-regexp,
+pre .hljs-literal,
+pre .hljs-link {
+  color: #ae81ff;
+}
+
+pre .hljs-code,
+pre .hljs-title,
+pre .hljs-section,
+pre .hljs-selector-class {
+  color: #a6e22e;
+}
+
+pre .hljs-strong {
+  font-weight: bold;
+}
+
+pre .hljs-emphasis {
+  font-style: italic;
+}
+
+pre .hljs-keyword,
+pre .hljs-selector-tag,
+pre .hljs-name,
+pre .hljs-attr {
+  color: #f92672;
+}
+
+pre .hljs-symbol,
+pre .hljs-attribute {
+  color: #66d9ef;
+}
+
+pre .hljs-params,
+pre .hljs-class pre .hljs-title {
+  color: #f8f8f2;
+}
+
+pre .hljs-string,
+pre .hljs-type,
+pre .hljs-built_in,
+pre .hljs-builtin-name,
+pre .hljs-selector-id,
+pre .hljs-selector-attr,
+pre .hljs-selector-pseudo,
+pre .hljs-addition,
+pre .hljs-variable,
+pre .hljs-template-variable {
+  color: #e6db74;
+}
+
+pre .hljs-comment,
+pre .hljs-deletion,
+pre .hljs-meta {
+  color: #75715e;
+}
+
+	</style>
+	<style>
+		pre .hljs {
+			/*background: #23241f;*/
+			border: none;
+			border-radius: 7px;
+		}
 	</style>
 
 	[bottom[%js=/libs/highlight/highlight.pack.js]]
 
 	[[*head]]
 	<title>PinPIE - [[*title]]</title>
-	<link rel="apple-touch-icon" sizes="57x57" href="//s0.pinpie.ru/favicon/apple-icon-57x57.png">
-	<link rel="apple-touch-icon" sizes="60x60" href="//s0.pinpie.ru/favicon/apple-icon-60x60.png">
-	<link rel="apple-touch-icon" sizes="72x72" href="//s0.pinpie.ru/favicon/apple-icon-72x72.png">
-	<link rel="apple-touch-icon" sizes="76x76" href="//s0.pinpie.ru/favicon/apple-icon-76x76.png">
-	<link rel="apple-touch-icon" sizes="114x114" href="//s0.pinpie.ru/favicon/apple-icon-114x114.png">
-	<link rel="apple-touch-icon" sizes="120x120" href="//s0.pinpie.ru/favicon/apple-icon-120x120.png">
-	<link rel="apple-touch-icon" sizes="144x144" href="//s0.pinpie.ru/favicon/apple-icon-144x144.png">
-	<link rel="apple-touch-icon" sizes="152x152" href="//s0.pinpie.ru/favicon/apple-icon-152x152.png">
-	<link rel="apple-touch-icon" sizes="180x180" href="//s0.pinpie.ru/favicon/apple-icon-180x180.png">
-	<link rel="icon" type="image/png" sizes="36x36" href="//s0.pinpie.ru/favicon/android-icon-36x36.png">
-	<link rel="icon" type="image/png" sizes="48x48" href="//s0.pinpie.ru/favicon/android-icon-48x48.png">
-	<link rel="icon" type="image/png" sizes="72x72" href="//s0.pinpie.ru/favicon/android-icon-72x72.png">
-	<link rel="icon" type="image/png" sizes="96x96" href="//s0.pinpie.ru/favicon/android-icon-96x96.png">
-	<link rel="icon" type="image/png" sizes="144x144" href="//s0.pinpie.ru/favicon/android-icon-144x144.png">
-	<link rel="icon" type="image/png" sizes="192x192" href="//s0.pinpie.ru/favicon/android-icon-192x192.png">
-	<link rel="icon" type="image/png" sizes="32x32" href="//s0.pinpie.ru/favicon/favicon-32x32.png">
-	<link rel="icon" type="image/png" sizes="96x96" href="//s0.pinpie.ru/favicon/favicon-96x96.png">
-	<link rel="icon" type="image/png" sizes="16x16" href="//s0.pinpie.ru/favicon/favicon-16x16.png">
-	<link rel="manifest" href="//s0.pinpie.ru/favicon/manifest.json">
+	<link rel="apple-touch-icon" sizes="57x57" href="//s0.pinpie.rocks/favicon/apple-icon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="//s0.pinpie.rocks/favicon/apple-icon-60x60.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="//s0.pinpie.rocks/favicon/apple-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="//s0.pinpie.rocks/favicon/apple-icon-76x76.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="//s0.pinpie.rocks/favicon/apple-icon-114x114.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="//s0.pinpie.rocks/favicon/apple-icon-120x120.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="//s0.pinpie.rocks/favicon/apple-icon-144x144.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="//s0.pinpie.rocks/favicon/apple-icon-152x152.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="//s0.pinpie.rocks/favicon/apple-icon-180x180.png">
+	<link rel="icon" type="image/png" sizes="36x36" href="//s0.pinpie.rocks/favicon/android-icon-36x36.png">
+	<link rel="icon" type="image/png" sizes="48x48" href="//s0.pinpie.rocks/favicon/android-icon-48x48.png">
+	<link rel="icon" type="image/png" sizes="72x72" href="//s0.pinpie.rocks/favicon/android-icon-72x72.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="//s0.pinpie.rocks/favicon/android-icon-96x96.png">
+	<link rel="icon" type="image/png" sizes="144x144" href="//s0.pinpie.rocks/favicon/android-icon-144x144.png">
+	<link rel="icon" type="image/png" sizes="192x192" href="//s0.pinpie.rocks/favicon/android-icon-192x192.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="//s0.pinpie.rocks/favicon/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="//s0.pinpie.rocks/favicon/favicon-96x96.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="//s0.pinpie.rocks/favicon/favicon-16x16.png">
+	<link rel="manifest" href="//s0.pinpie.rocks/favicon/manifest.json">
 	<meta name="msapplication-TileColor" content="#ffffff">
-	<meta name="msapplication-TileImage" content="//s0.pinpie.ru/favicon/ms-icon-310x310.png">
+	<meta name="msapplication-TileImage" content="//s0.pinpie.rocks/favicon/ms-icon-310x310.png">
 	<meta name="theme-color" content="#ffffff">
 	<!-- temporarily link is hidden, author of this icon is https://github.com/paomedia/small-n-flat -->
 
@@ -204,8 +209,8 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <header id="site-header">
 	<h1>
 		<img class="logo" src="[[!%img=/1473470442_pin.svg]]">
-		<span class="hp-1"><a href="//pinpie.ru/">PinPIE</a></span>
-		<span class="hp-2"><a href="//pinpie.ru/">When PHP Is Enough</a></span>
+		<span class="hp-1"><a href="//pinpie.rocks/">PinPIE</a></span>
+		<span class="hp-2"><a href="//pinpie.rocks/">When PHP Is Enough</a></span>
 		<span id="menu-trigger" onclick="menu.menuShow()">=</span>
 	</h1>
 </header>

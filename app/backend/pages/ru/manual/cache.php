@@ -5,8 +5,11 @@
 	<li><a href="/ru/manual/cache#simple">Просто</a></li>
 	<li><a href="/ru/manual/cache#usage">Использование</a></li>
 	<li><a href="/ru/manual/cache#separate-caching">Раздельное кэширование</a></li>
-	<li><a href="/ru/manual/cache#hash">Хэш</a></li>
 	<li><a href="/ru/manual/cache#cache-storage">Где хранится</a></li>
+	<li><a href="/ru/manual/cache#set">Выбор кэшера</a></li>
+	<li><a href="/ru/manual/cache#settings">Настройки кэша</a></li>
+	<li><a href="/ru/manual/cache#hash">Хэш</a></li>
+	<li><a href="/ru/manual/cache#cacher-class">Класс кэшера</a></li>
 	<li><a href="/ru/manual/cache#cacher-disabled">Кэшер Disabled</a></li>
 	<li><a href="/ru/manual/cache#cacher-files">Кэшер Files</a></li>
 	<li><a href="/ru/manual/cache#cacher-memcached">Кэшер Memcached</a></li>
@@ -16,13 +19,19 @@
 </ul>
 ]]
 <article>
-	<header><h1>Кэш</h1></header>
+	<header>
+		<h1>
+			<a name="" href="">#</a>
+			Кэш
+		</h1>
+	</header>
 	<p>
-		PinPIE позволяет прозрачно и управляемо кешировать сниппеты.
+		PinPIE позволяет прозрачно и управляемо <a href="/ru/manual/tags#snippet" title="See tags manual">кешировать сниппеты</a>.
 	</p>
 	<p>
-		А вот чанки никогда не кэшируются. Предполагается, что чанки это просто кусочки текста.
-		Чанки хранятся в "*.php" файлах, и обычно кешируются опкод кешерами, такими как OPcache, APC, XCache, eAccelerator и т.п.
+		А вот <a href="/ru/manual/tags#chunk" title="See tags manual">чанки</a> никогда не кэшируются.
+		Чанки это просто кусочки текста.
+		Чанки хранятся в "*.php" файлах, и обычно кешируются опкод кешерами, такими как Zend OPcache, APC, XCache, eAccelerator и т.п.
 		Поэтому чанки никак дополнительно не кэшируются. Если кэширование всё же требуется &mdash; используйте сниппет.
 	</p>
 	<p>
@@ -50,7 +59,7 @@
 			Для лучшего представления о том, как работает кэш, нужно знать вот эти простые вещи:
 		</p>
 		<ul>
-			<li>Если сниппет закэшировался &mdash; он закешировался так, как был нарисован, без учета применения темплейта.</li>
+			<li>Если сниппет закэшировался &mdash; он закешировался так, как был нарисован.</li>
 			<li>Если файл сниппета изменился &mdash; он будет перерисован.</li>
 			<li>Если в сниппете есть дочерние теги &mdash; они будут отрисованы единожды, и будут закешированы в выводе этого сниппета.</li>
 			<li>Если у сниппета есть дочерние теги (на любой глубине) и один из их файлов изменился &mdash; сниппет будет перерисован.</li>
@@ -78,8 +87,8 @@
 			<li><?= scx('[[<b>3600</b>$some_snippet]]') ?> &mdash; сниппет закеширован на один час</li>
 			<li>
 				<?= scx('[[!$some_snippet]]') ?> &mdash; закэширован навечно. Сниппет кэшируется на
-				<span><code>PinPIE::$conf->pinpie['cache forever time']</code></span> секунд,
-				что по-умолчанию равно <a href="http://php.net/manual/ru/reserved.constants.php#constant.php-int-max" target="_blank">PHP_INT_MAX</a>. Для 32-битных систем это около 68 лет, а для 64-битных это ещё дольше.
+				<span><code>PinPIE::$config->pinpie['cache forever time']</code></span> секунд,
+				что по-умолчанию равно примерно 10 лет (315360000 секунд).
 				Если потребуется, вы можете установить ваше собственное значение времени вечного кэширования
 				в вашем <a href="/ru/manual/config#pinpie-cache" title="Read config manual">конфиге</a>.
 			</li>
@@ -160,7 +169,8 @@ echo rand(1, 100);')); ?>
 			</h1>
 		</header>
 		<p>
-			Чтобы включить нужный кешер, нужно в конфиге прописать его класс в <?= scx('$pinpie["cache class"]') ?> например так:
+			Чтобы включить нужный кешер, нужно в конфиге прописать его класс в
+			<?= scx('$pinpie["cache class"]') ?> например так:
 		</p>
 		<?= pcx('$pinpie[\'cache class\'] = \'\pinpie\pinpie\Cachers\Disabled\';') ?>
 		<p>Вы можете установить свой собственный кешер.</p>
@@ -227,7 +237,7 @@ echo rand(1, 100);')); ?>
 			<li><b>raw hash</b> &mdash; Настройка определяет выдавать ли хеш в виде набора октетов, или прямо теми закорючками, что сгенерировались.</li>
 		</ul>
 		<p>
-			Эти настройки живут в поле settings экземпляра класса и мержатся с дефолтами и настройками, приходящими из конфига:
+			Эти настройки живут в поле <?= scx('settings') ?> экземпляра класса и мержатся с дефолтами и настройками, приходящими из конфига:
 		</p>
 		<?= pcx('  public function __construct(PP $pinpie, $settings = []) {
     $this->pinpie = $pinpie;
@@ -288,7 +298,6 @@ class Disabled extends Cacher {
 			Кэшер "files" хранит кэш в файлах, названных по их хэшу.
 			Место хранения может быть задано в массиве настроек кеша <?= scx('$cache[\'path\']') ?>.
 		</p>
-
 		<p>По умолчанию это:</p>
 		<?= pcx('$defaults["path"] = $this->pinpie->root . DIRECTORY_SEPARATOR . "filecache";', 'PHP') ?>
 		<p>
@@ -327,13 +336,12 @@ class Disabled extends Cacher {
 				<a name="cacher-memcached" href="#cacher-memcached">#</a>
 				Кэшер Memcached
 			</h1>
-			<p><?= scx('$pinpie["cache class"] = \'\pinpie\pinpie\Cachers\Memcache\';') ?></p>
 		</header>
+		<p><?= scx('$pinpie["cache class"] = \'\pinpie\pinpie\Cachers\Memcache\';') ?></p>
 		<p>
 			Кэширование на основе Memcached использует для работы объект Memcache.
 			Естественно с поддержкой подключения к нескольким серверам.
-			Пул серверов задаётся в переменной конфига <?= scx('$cache["servers"]') ?> в виде массива пар хост и порт.
-			Вот код:
+			Пул серверов задаётся в переменной конфига <?= scx('$cache["servers"]') ?> в виде массива пар хост и порт. Вот код:
 		</p>
 		<?= pcx('$cache["servers"] = [
   ["host" => "localhost", "port" => 11211],
@@ -354,42 +362,65 @@ class Disabled extends Cacher {
 		</header>
 		<p>
 			Основано на расширении <a href="http://php.net/manual/ru/book.apcu.php">APCu</a> (ранее APC).
-			Настроек кроме стандартных из Cacher не имеет.
-			Вот весь его код:
+			Настроек кроме стандартных из Cacher не имеет. Вот весь его код:
 		</p>
-		<?= pcx('
-namespace pinpie\pinpie\Cachers;
+		<?= pcx('namespace pinpie\pinpie\Cachers;
 
 use \pinpie\pinpie\PP;
 use \pinpie\pinpie\Tags\Tag;
 
-class APC extends Cacher {
-  protected $bc = false;
+class APCu extends Cacher {
+	/**
+	 * @var bool Will be true if APC or APCu functions are available. If APC or APCu is not detected - a message will be logged to default PinPIE log.
+	 */
+	protected $ok = false;
+	/**
+	 * @var bool Will be set to true to enable backward compatibility with PHP < 7
+	 */
+	protected $bc = false;
 
-  public function __construct(PP $pinpie, array $settings = []) {
-    if (function_exists(\'apc_fetch\')) {
-      $this->bc = true;
-    }
-    parent::__construct($pinpie, $settings);
-  }
 
-  public function get(Tag $tag) {
-    $hash = $this->getHash($tag);
-    if ($this->bc) {
-      return apc_fetch($hash);
-    } else {
-      return apcu_fetch($hash);
-    }
-  }
+	public function __construct(PP $pinpie, array $settings = []) {
+		parent::__construct($pinpie, $settings);
 
-  public function set(Tag $tag, $data, $time = 0) {
-    $hash = $this->getHash($tag);
-    if ($this->bc) {
-      return apc_store($hash, $data, $time);
-    } else {
-      return apcu_store($hash, $data, $time);
-    }
-  }
+		if (\function_exists(\'apcu_fetch\')) {
+			$this->ok = true;
+			$this->bc = false;
+		}
+		if (\function_exists(\'apc_fetch\')) {
+			$this->ok = true;
+			$this->bc = true;
+		}
+
+		if (!$this->ok) {
+			// APS is not installed !
+			$pinpie->logit(\'APC cache error: APC not installed. Check APC cacher class at pinpie/Cachers/APCu.php for more info.\');
+		}
+	}
+
+	public function get(Tag $tag) {
+		if (!$this->ok) {
+			return false;
+		}
+		$hash = $this->getHash($tag);
+		if ($this->bc) {
+			return \apc_fetch($hash);
+		} else {
+			return \apcu_fetch($hash);
+		}
+	}
+
+	public function set(Tag $tag, $data, $time = 0) {
+		if (!$this->ok) {
+			return false;
+		}
+		$hash = $this->getHash($tag);
+		if ($this->bc) {
+			return \apc_store($hash, $data, $time);
+		} else {
+			return \apcu_store($hash, $data, $time);
+		}
+	}
 
 }', 'php') ?>
 		<p>Самый быстрый вариант. APC работает внутри самого процесса PHP, имеет доступ к его памяти и хранит переменные PHP как есть, что и является причиной скорости.</p>
@@ -414,10 +445,7 @@ class APC extends Cacher {
 		<ul>
 			<li><b>$tag</b> &mdash; экземпляр тега, со всеми настройками</li>
 			<li><b>$data</b> &mdash; то, что кеширует PinPIE в set(); то, что он потом ожидает получить из get()</li>
-			<li>
-				<b>$time</b> &mdash; время в секундах на сколько кешировать. Не обязательно.
-				PinPIE всё равно сохраняет время в $data и потом проверяет.
-			</li>
+			<li><b>$time</b> &mdash; время в секундах на сколько кешировать. Не обязательно. PinPIE всё равно сохраняет время в $data и потом проверяет.</li>
 		</ul>
 		<p>
 			Кешер можно назначить в конфиге через <?= scx('$pinpie["cache class"] = "\YourCacher";') ?>
@@ -426,7 +454,6 @@ class APC extends Cacher {
 		</p>
 		<?= pcx('PinPIE::injectCacher($cacher);') ?>
 		<p>где <b>$cacher</b> это ваш объект, унаследованный от класса <b>\PinPIE\Cacher</b></p>
-
 	</section>
 
 	<section>
@@ -445,7 +472,7 @@ class APC extends Cacher {
 		</p>
 		<p>
 			PinPIE позволяет вам игнорировать URL или GET-параметры, и задать правила генерации хэша.
-			Правила кэширования можно установить в конфиге в <?= scx('PinPIE::$conf->pinpie["cache rules"]') ?>.
+			Правила кэширования можно установить в конфиге в <?= scx('PinPIE::$config->pinpie["cache rules"]') ?>.
 			Вот дефолтные правила:
 		</p>
 		<?= pcx('"cache rules" => [

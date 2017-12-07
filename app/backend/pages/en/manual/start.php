@@ -38,6 +38,7 @@ composer install', 'html') ?>
 			Read <a href="#launch">how to launch PinPIE</a> below.
 		</p>
 	</section>
+
 	<section>
 		<header>
 			<h1>
@@ -66,7 +67,7 @@ composer install', 'html') ?>
 		<p>
 			You are not required to use exactly this path to store PinPIE files.
 			You can put PinPIE files to any other folder you want.
-			Just make sure to include <?= scx('/src/autoload.php') ?>.
+			Just make sure to include <?= scx('/pinpie/src/autoload.php') ?>.
 		</p>
 	</section>
 
@@ -104,10 +105,10 @@ composer install', 'html') ?>
 			</h1>
 		</header>
 		<p>In most cases, this code is enough to run PinPIE:</p>
-		<?= pcx('\pinpie\pinpie\PinPIE::newInstance();', 'PHP') ?>
+		<?= pcx('\pinpie\pinpie\PinPIE::renderPage();', 'PHP') ?>
 		<p>To make usage of PinPIE class more convenient, you can make it globally accessible with class_alias() function:</p>
 		<?= pcx('class_alias(\'\pinpie\pinpie\PinPIE\', \'PinPIE\');
-PinPIE::newInstance();', 'PHP') ?>
+PinPIE::renderPage();', 'PHP') ?>
 	</section>
 
 	<section>

@@ -12,22 +12,11 @@
 ]]
 <article>
 	<header>
-		<h1>Начни использовать PinPIE</h1>
+		<h1>
+			<a name="" href="">#</a>
+			Начни использовать PinPIE
+		</h1>
 	</header>
-
-	<section>
-		<header>
-			<h1>
-				<a name="download" href="#download">#</a>
-				Скачать
-			</h1>
-		</header>
-		<p>
-			Скачать любую версию PinPIE можно из <a href="https://github.com/pinpie/pinpie/">репозитория PinPIE</a>.
-			Всегда доступна текущая <a href="https://github.com/pinpie/pinpie/archive/dev.zip">девелоперская</a> версия.
-			Последняя <a href="https://github.com/pinpie/pinpie/archive/stable.zip">стабильная</a> пока недоступна.
-		</p>
-	</section>
 
 	<section>
 		<header>
@@ -43,9 +32,11 @@
 		<?= pcx('composer require "pinpie/pinpie"
 composer install', 'html') ?>
 		<p>
-			Необходимо обеспечить направление всех запросов на единую точку входа.
+			Далее, необходимо обеспечить направление всех запросов на единую точку входа. Обычно это <?= scx('index.php', 'html') ?> в корне сайта.
+			В этом файле нужно подключить и <a href="#launch">запустить PinPIE</a>.
 		</p>
 	</section>
+
 	<section>
 		<header>
 			<h1>
@@ -58,6 +49,11 @@ composer install', 'html') ?>
 			в удобное для вас место. Структура папок можно найти в папке <?= scx('/basic structure', 'html') ?> в репозитории.
 		</p>
 		<p>
+			Скачать любую версию PinPIE можно из <a href="https://github.com/pinpie/pinpie/">репозитория PinPIE</a>.
+			Всегда доступна текущая <a href="https://github.com/pinpie/pinpie/archive/dev.zip">девелоперская</a> версия.
+			Последняя <a href="https://github.com/pinpie/pinpie/archive/stable.zip">стабильная</a> пока недоступна.
+		</p>
+		<p>
 			Для запуска PinPIE необходимо инклудить его в главной точке входа вашего проекта,
 			а все запросы направить на этот файл.
 			Обеспечить направление всех запросов на "/index.php" или другой файл можно в конфиге веб-сервера.
@@ -66,11 +62,11 @@ composer install', 'html') ?>
 			Обычно, главная точка входа в код сайта это "/index.php".
 		</p>
 		<p> Чтобы PinPIE начал работать, внутри этого файла должна быть такая строчка:</p>
-		<?= pcx('include __DIR__."/pinpie/autoload.php";') ?>
+		<?= pcx('include __DIR__ . \'/pinpie/src/autoload.php\';') ?>
 		<p>
 			Вы не обязаны размещать файлы PinPIE в этой папке.
 			Можете размещать их там, где вам удобнее.
-			Главное подключите <?= scx('/autoload.php') ?>.
+			Главное подключите <?= scx('/pinpie/src/autoload.php') ?>.
 		</p>
 	</section>
 
@@ -82,11 +78,20 @@ composer install', 'html') ?>
 			</h1>
 		</header>
 		<p>
-			Для правильной работы PinPIE необходимы некоторые файлы.
-			PinPIE ожидает, что путь к файлу главной страницы будет  <?= scx('/templates/default.php', 'html') ?>,
-			что дефолтный темплейт лежит это <?= scx('/templates/default.php', 'html') ?>,
-			и в нём есть плейсхолдер <?= scx('[[*content]]') ?>, на месте которого будет выводиться контент страницы.
+			Для правильной работы PinPIE требуется тольк один файл. PinPIE будет ожидать, что файл главной страницы существует, и путь к нему <?= scx('/pages/index.php') ?>.
+			Никакие другие файлы для PinPIE не являются обязательными.
 		</p>
+		<p>Базовая структура директорий:</p>
+		<?= pcx('/
+├── chunks/                              папка для чанков
+├── config/                              директория с конфигами
+├── filecache/                           эта используется только, если используется файловый кешер
+├── pages/                               тут находятся все страницы
+├── pinpie/                              вероятное местоположение для файлов PinPIE, если устанавливали не через composer
+├── snippets/                            директория для сниппетов
+└── templates/                           папка для темплейтов', 'html') ?>
+
+		<p>Любой этот путь может быть изменён. Даже путь к конфигу.</p>
 	</section>
 
 	<section>
@@ -97,10 +102,10 @@ composer install', 'html') ?>
 			</h1>
 		</header>
 		<p>Для запуска работы PinPIE в большинстве случаев достаточно кода:</p>
-		<?= pcx('\pinpie\pinpie\PinPIE::newInstance();', 'PHP') ?>
+		<?= pcx('\pinpie\pinpie\PinPIE::renderPage();', 'PHP') ?>
 		<p>Для удобства работы можно сделать класс PinPIE глобально доступным с помощью функции class_alias():</p>
 		<?= pcx('class_alias(\'\pinpie\pinpie\PinPIE\', \'PinPIE\');
-PinPIE::newInstance();', 'PHP') ?>
+PinPIE::renderPage();', 'PHP') ?>
 	</section>
 
 	<section>

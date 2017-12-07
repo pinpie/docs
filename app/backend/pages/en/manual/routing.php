@@ -37,11 +37,12 @@
 			Also in <a href="/en/manual/config">config</a> you can change <a href="/en/manual/config#index">index file name</a>.
 			This option allow to set directory index file name, used in routing process.
 			If you change it to any other value, this value will be used while checking directory path. E.g. if you set it to
-			<span class="xml"><code>someothername.php</code></span>, PinPIE will look for <span><code>/pages/about/someothername.php</code></span>
+			<span class="xml"><code>someothername.php</code></span>, and URL <span><code>/about</code></span> is a folder,
+			PinPIE will look for <span><code>/pages/about/someothername.php</code></span>
 			instead of <span><code>/pages/about/index.php</code></span> in case if <span><code>/pages/about.php</code></span> doesn't exist.
 		</p>
-
 	</section>
+
 	<section>
 		<header>
 			<h1>
@@ -50,16 +51,17 @@
 			</h1>
 		</header>
 		<p>
-			If option <?= scx('PinPIE::$conf->pinpie["route to parent"]') ?> is defined in config and is greater than zero,
+			If option <?= scx('PinPIE::$config->pinpie["route to parent"]') ?> is defined in config and is greater than zero,
 			then PinPIE will try to find some file, according to requested path.
 		</p>
 		<p>
-			That means if for URL <span><code>/very/long/url</code></span> there will be not found both <span><code>/pages/very/long/url.php</code></span>
-			and <span><code>/pages/very/long/url/index.php</code></span> paths, then searching path will be shortened
-			for one step to check <span><code>/pages/very/long.php</code></span> and <span><code>/pages/very/long/index.php</code></span> respectively.
+			That means if for URL <span><code>/very/long/url</code></span> there will be not found both
+			<span><code>/pages/very/long/url.php</code></span> and <span><code>/pages/very/long/url/index.php</code></span> paths,
+			then searching path will be shortened for one step
+			to check <span><code>/pages/very/long.php</code></span> and <span><code>/pages/very/long/index.php</code></span> respectively.
 		</p>
 		<p>
-			This operation will be repeated for maximum <?= scx('PinPIE::$conf->pinpie["route to parent"]') ?> times,
+			This operation will be repeated for maximum <?= scx('PinPIE::$config->pinpie["route to parent"]') ?> times,
 			and if no existing file will be found &mdash; the requested URL will be considered as "not found".
 		</p>
 		<p>
@@ -69,14 +71,17 @@
 		<p>Possible values:</p>
 		<ul>
 			<li>0 &mdash; exact match required, url "site.com/url" and "site.com/url/" are treated as different</li>
-			<li>1 &mdash; urls like "site.com/url" and "site.com/url/" will be handled as the same (<a href="/en/manual/config#default-pinpie-settings">default</a>)</li>
-			<li>&gt; 1 &mdash; routed up this many times maximum</li>
+			<li>
+				1 &mdash; urls like "site.com/url" and "site.com/url/" will be handled as the same
+				(<a href="/en/manual/config#default-pinpie-settings">default</a>)
+			</li>
+			<li>2 and more &mdash; routed up this many times maximum</li>
 		</ul>
 		<p>
-			This mechanics allow you to handle requests like <span><code>/news/42</code></span> or <span><code>/news/42/edit</code></span> in one file
+			This mechanics allows to handle requests like <span><code>/news/42</code></span> or <span><code>/news/42/edit</code></span> in one file
 			located at <span><code>/pages/news.php</code></span> or <span><code>/pages/news/index.php</code></span>.
 		</p>
-		<p>But I prefer to have:</p>
+		<p>I prefer to have:</p>
 		<ul>
 			<li><span><code>/pages/news/index.php</code></span> for news listing at url <span><code>/news/</code></span></li>
 			<li>the same <span><code>/pages/news/index.php</code></span> as news entry page at url <span><code>/news/42</code></span> if entry id were provided</li>

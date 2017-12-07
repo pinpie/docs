@@ -16,9 +16,12 @@
 			</h1>
 		</header>
 		<p>
-			PinPIE is lightweight php-based engine for small sites. All pages and URL handlers are stored in *.php files. Caching also included, and cache control is simple and clear.
+			PinPIE is lightweight php-based engine for small sites.
+			All pages and URL handlers are stored in *.php files.
+			Caching also included, and cache control is simple and clear.
 		</p>
 	</section>
+
 	<section>
 		<header>
 			<h1>
@@ -30,8 +33,7 @@
 			PinPIE is not a framework, nor it is a CMS. PinPIE is a site engine, designed to be quick and efficient even on cheap hostings.
 		</p>
 		<p>
-			PinPIE stores all contend in php-files.
-			If opcode cacher is used &mdash; it will cache this files.
+			PinPIE stores all contend in php-files. If opcode cacher is used &mdash; it will cache this files.
 			That allows PinPIE to include pages, snippets and chunks in the blink of an eye.
 		</p>
 		<p>
@@ -50,7 +52,7 @@
 			PinPIE provide clear and controllable automatic snippet caching.
 			Caching can be enabled or disabled for each snippet tag separately.
 			Caching control is predictable and simple.
-			PinPIE will automatically recache only changed content.
+			PinPIE will automatically recache only modified content.
 			Read more in <a href="/en/manual/cache">cache readme</a>.
 		</p>
 	</section>
@@ -68,8 +70,3 @@
 		</p>
 	</section>
 </article>
-
-
-
-
-

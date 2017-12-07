@@ -1,63 +1,110 @@
-[title[=Настройка сервера]]
-[sidemenu[ru/manual/sidemenu]]
+[title[=Server configuration]]
+[sidemenu[en/manual/sidemenu]]
 [menu server configuration[=
 <ul>
-  <li><a href="#nginx">Nginx</a></li>
+	<li><a href="#important"><span style="font-family: monospace;">!important;</span></a></li>
+	<li><a href="#apache">Apache</a></li>
+	<li><a href="#nginx">Nginx</a></li>
 </ul>
 ]]
 <article>
-  <header>
-    <h1>Настройка веб-сервера для работы PinPIE</h1>
-  </header>
+	<header>
+		<h1>
+			<a name="" href="">#</a>
+			Настройка вебсервера для PinPIE
+		</h1>
+	</header>
 
-  <section>
-    <header>
-      <h1>
-        <a name="nginx" href="#nginx">#</a>
-        Nginx
-      </h1>
-    </header>
-    <h2>Простой</h2>
-    <pre><code class="nginx">server {
+	<section>
+		<header>
+			<h1>
+				<a name="important" href="#important">#</a>
+				<span style="font-family: monospace;">!important;</span>
+			</h1>
+		</header>
+		<p>Данная конфигурация является примерной и не была проверена на защиту от проникновения и прочие вопросы безопасности.</p>
+	</section>
+
+	<section>
+		<header>
+			<h1>
+				<a name="apache" href="#apache">#</a>
+				Apache
+			</h1>
+		</header>
+		<h2>Простой конфиг</h2>
+		<?= pcx(h('<VirtualHost *:80>
+	ServerName site.com
+	DocumentRoot "/var/www/site.com"
+	<Directory "/var/www/site.com">
+	RewriteEngine On
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteRule . /index.php [L]
+	</Directory>
+</VirtualHost>'), 'apache') ?>
+
+		<h2>Конфиг с шардингом статики</h2>
+		<?= pcx(h('<VirtualHost *:80>
+	ServerName site.com
+	DocumentRoot "/var/www/site.com/frontend"
+	<Directory
+	"/var/www/site.com/frontend">
+	RewriteEngine On
+	RewriteRule . /index.php [L]
+	</Directory>
+</VirtualHost>
+
+<VirtualHost *:80>
+	ServerName s0.site.com
+	ServerAlias s1.site.com s2.site.com s3.site.com
+	DocumentRoot "/var/www/site.com/backend"
+	<Directory "/var/www/site.com/backend">
+	Order Allow,Deny
+	Allow From All
+	Options -Indexes
+	</Directory>
+</VirtualHost>'), 'apache') ?>
+	</section>
+
+	<section>
+		<header>
+			<h1>
+				<a name="nginx" href="#nginx">#</a>
+				Nginx
+			</h1>
+		</header>
+		<h2>Простой конфиг</h2>
+		<pre><code class="nginx">server {
   server_name     site.com;
   root     /var/www/site.com/;
-  access_log      /var/log/nginx/site.com.access.log  main;
 
   location / {
+    include            /etc/nginx/fastcgi_params;
     fastcgi_pass       unix:/var/run/php-fpm.sock;
     fastcgi_param      SCRIPT_FILENAME  $document_root/index.php;
-    fastcgi_read_timeout 30s;
-    include        /etc/nginx/fastcgi_params;
-  }
-
-  location ~* ^.+\.(jpg|jpeg|gif|ico|txt|png)$ {
-      access_log  off;
   }
 }</code></pre>
 
-    <h2>С шардингом статик серверов</h2>
-      <pre><code class="nginx">server {
+		<h2>Конфиг с шардингом статики</h2>
+		<pre><code class="nginx">server {
   server_name     site.com;
-  root     /var/www/site.com/;
-  access_log      /var/log/nginx/site.com.access.log  main;
+  root     /var/www/site.com/backend;
 
   location / {
+    include            /etc/nginx/fastcgi_params;
     fastcgi_pass       unix:/var/run/php-fpm.sock;
     fastcgi_param      SCRIPT_FILENAME  $document_root/index.php;
-    fastcgi_read_timeout 30s;
-    include        /etc/nginx/fastcgi_params;
-  }
-
-  location ~* ^.+\.(jpg|jpeg|gif|ico|txt|png)$ {
-      access_log  off;
   }
 }
 
 server {
-  server_name s1.site.com s2.site.com s3.site.com;
-  root /var/www/site.com/;
+  server_name s0.site.com s1.site.com s2.site.com s3.site.com;
+  root /var/www/site.com/frontend;
 }</code></pre>
 
-    <h3></h3>
-  </section>
+	</section>
+
 </article>
+
+

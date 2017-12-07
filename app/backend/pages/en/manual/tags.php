@@ -27,18 +27,17 @@
 				<a name="chunk" href="#chunk">#</a>
 				Chunk
 			</h1>
-			<p>Syntax: <?= scx('[[chunk]]') ?></p>
-			<p>Settings: <?= scx('$tags[""]') ?></p>
-			<p>Class: <?= scx('\pinpie\pinpie\Tags\Chunk') ?></p></header>
+			<p>Syntax: <?= scx('[[chunk]]', 'html') ?></p>
+			<p>Settings: <?= scx('$tags[""]', 'php') ?></p>
+			<p>Class: <?= scx('\pinpie\pinpie\Tags\Chunk') ?></p>
+		</header>
 		<p>
 			Chunk is plain text located in file in /chunks folder,
 			which can be set in config with <?= scx('$tags[""]["folder"]') ?>.
 		</p>
 		<p>This code</p>
-		<?= pcx('[[some_chunk]]') ?>
-		<p>
-			will make PinPIE locate file
-		</p>
+		<?= pcx('[[some_chunk]]', 'html') ?>
+		<p>will make PinPIE locate file</p>
 		<?= pcx('$tags[""]["folder"] . DIRECTORY_SEPARATOR . "some_chunk.php"') ?>
 		<p>
 			and load its content as plain text.
@@ -85,7 +84,6 @@
 			<p>Syntax: <?= scx('[[$snippet]]') ?></p>
 			<p>Settings: <?= scx('$tags[\'$\']') ?></p>
 			<p>Class: <?= scx('\pinpie\pinpie\Tags\Snippet') ?></p>
-
 		</header>
 		<p>
 			Snippet is php file, that will be included, executed and parsed for other tags.
@@ -150,13 +148,12 @@
 			<li><?= scx('[[<b>3600</b>$some_snippet]]') ?> &mdash; snippet is cached for one hour</li>
 			<li>
 				<?= scx('[[!$some_snippet]]') ?> &mdash; snippet is cached for
-				<span><code>PinPIE::$conf->pinpie['cache forever time']</code></span> seconds,
-				which by default is <a href="http://php.net/manual/en/reserved.constants.php#constant.php-int-max" target="_blank">PHP_INT_MAX</a>. You can set your own <a href="/en/manual/cfg#cache_forever_time">cache forever time</a>
+				<span><code>PinPIE::$config->pinpie['cache forever time']</code></span> seconds,
+				which by default is about ten years (315360000 seconds). You can set your own <a href="/en/manual/cfg#cache_forever_time">cache forever time</a>
 				option value in <a href="/en/manual/config">config</a>.
 			</li>
 		</ul>
 		<p>For further info please read <a href="/en/manual/cache">cache</a> readme.</p>
-		@TODO add examples of caching situations
 	</section>
 
 	<section>
@@ -228,24 +225,53 @@ text]]') ?>
 				Placeholder
 			</h1>
 			<p>Syntax: <?= scx('[[*placeholder]]', 'html') ?></p>
-			<p>It's not a real tag and have no settings.</p>
+			<p>Syntax: <?= scx('[[*placeholder=default value]]', 'html') ?></p>
+			<p>It's not a real tag and it have no settings.</p>
 		</header>
 		<p>
-			Every chunk, snippet or constant output can be put to the variable. This variable can be used in the page, in tags,
-			or certainly in the template. Placeholder tag starts with asterisk.
+			Every chunk, snippet or constant output can be assigned to a placeholder.
+			This placeholder can be used in the page, in tags, or certainly in the template.
+			Placeholder tag starts with asterisk.
 			Here is syntax example: <?= scx('[[*placeholder]]', 'html') ?>
 		</p>
+		<?= pcx(h('[foobar[$some_snippet]]
+...
+<span>[[*foobar]]</span>'), 'html') ?>
 		<p>
-			Placeholder contents could be used in external template engine by applying your custom function. This data is passed
-			to function as an array. See external template section.
+			The output of snippet <?= scx('some_snippet', 'html') ?> will not be used in the place where snippet is.
+			It goes to the <?= scx('foobar', 'html') ?> placeholder and will be printed there.
+		</p>
+		<p>
+			Placeholder supports default value. You can set default value to the placeholder and it is used
+			if no other value is assigned to that placeholder.
+		</p>
+		<?= pcx(h('<span>[[*var=some default text]]</span>')) ?>
+		<p>Will produce that HTML:</p>
+		<?= pcx(h('<span>some default text</span>')) ?>
+		<p>
+			If somewhere some content is assigned to that placeholder, e.g. <?= scx('[var[$rand]]') ?>,
+			that will replace placeholder's default value with snippet output:
+		</p>
+		<?= pcx(h('<span>42</span>')) ?>
+		<p>
+			Placeholder contents could be used in external template engine by applying your custom function.
+			This data is passed to function as an array. See external template section.
 		</p>
 		<p>
 			Placeholder contents are cached within its parents cache, so you don't have to worry
 			when placeholder contents are set inside cached snippet, but used somewhere outside of that snippet.
 			They will be cached and used outside this tags. See cache section.
 		</p>
-		<p>Placeholder tags are removed from output. But if debug is enabled &mdash; they remain.</p>
-		<p>There is reserved placeholder <?= scx('[[*content]]') ?> for page or tag output in template.</p>
+		<p>
+			Placeholder tags are removed from output.
+			So, any placeholder will be replaced with some content or it will be replaced with empty strings.
+			No placeholders go to the rendered page.
+			But if debug mode is enabled &mdash; they remain and you can see them.</p>
+		<h3>Important</h3>
+		<p>
+			There is a reserved placeholder <?= scx('[[*content]]') ?> for a page or tag output in a template.
+			See <a href="/en/manual/templates">templates readme</a>.
+		</p>
 		<h2>Examples</h2>
 		<h3>Example 1</h3>
 		<p>
@@ -283,7 +309,6 @@ text]]') ?>
 		<?= pcx('pinpie') ?>
 		<p>will provide you the same HTML code:</p>
 		<?= pcx(h('<span>pinpie</span>')) ?>
-		<p>You can see some examples of tags usage in <a href="/en/examples/tags">tag examples</a>.</p>
 	</section>
 
 	<section>
@@ -352,7 +377,7 @@ text]]') ?>
 		<?= pcx(h('<script type="text/javascript" src="/javascript/jquery.js?time=hash"></script>'), 'html') ?>
 		<p>
 			Static files could be located outside the site root folder.
-			Set <?= scx('PinPIE::$conf->pinpie["static folder"]') ?> to path to your static files folder.
+			Set <?= scx('PinPIE::$config->pinpie["static folder"]') ?> to path to your static files folder.
 			Default value is <?= scx('ROOT') ?> (see <a href="/en/manual/constants#root">constants</a>).
 		</p>
 
@@ -417,6 +442,10 @@ text]]') ?>
 		<?= pcx(h('<?php echo rand(1, 100); ?>'), 'php') ?>
 		<p>So we will get this output:</p>
 		<?= pcx(h('<div>42</div>'), 'html') ?>
+		<p>As in snippet, in templates parameters could be transferred.</p>
+		<?= pcx('[[$snippet]wrap?foo=bar]') ?>
+		<p>They will be available inside template like PHP variables:</p>
+		<?= pcx('var_dump($foo); // bar', 'PHP') ?>
 		<p>
 			Please read more in <a href="/en/manual/templates#tag-templates">templates</a> readme.
 			You can see some examples of tags templates usage in <a href="/en/examples/templates">templates examples</a>.

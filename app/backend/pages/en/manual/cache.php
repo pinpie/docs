@@ -26,12 +26,13 @@
 		</h1>
 	</header>
 	<p>
-		PinPIE provides clear and controllable <a href="/en/manual/tags#snippet" title="See tags manual">snippet</a> caching.</p>
+		PinPIE provides clear and controllable <a href="/en/manual/tags#snippet" title="See tags manual">snippet</a> caching.
+	</p>
 	<p>
-		In the same time, <a href="/en/manual/tags#chunk" title="See tags manual">chunks</a> are never cached. Chunks are just pieces of text.
-		Chunks are stored in "*.php" files, and are mostly cached by acceleration software like APC, XCache, eAccelerator, etc.
-		Since version 5.5.0 Zend opcode cacher is bundled with PHP.
-		That's why chunks are not additionally cached. If you want to cache - you can use snippet.
+		In the same time, <a href="/en/manual/tags#chunk" title="See tags manual">chunks</a> are never cached.
+		Chunks are just pieces of text.
+		Chunks are stored in "*.php" files, and are mostly cached by acceleration software like Zend OPcache, APC, XCache, eAccelerator, etc.
+		That's why chunks are not additionally cached. If you want to cache &mdash; use snippet.
 	</p>
 	<p>
 		Pages code is executed every time. If you want to cache some heavy code &mdash; use a snippet.
@@ -87,7 +88,7 @@
 			<li>
 				<?= scx('[[!$some_snippet]]') ?> &mdash; cache forever. Snippet is cached for
 				<span><code>$pinpie['cache forever time']</code></span> seconds,
-				which by default is <a href="http://php.net/manual/en/reserved.constants.php#constant.php-int-max" target="_blank">PHP_INT_MAX</a>. For 32-bit systems it's about 68 years, for 64-bit it's much much longer.
+				which by default is about ten years (315360000 seconds).
 				You can set your own <a href="/en/manual/cfg#cache_forever_time" title="Read more">cache forever time</a>
 				option value in <a href="/en/manual/config#pinpie-cache" title="Read config manual">config</a>.
 			</li>
@@ -183,11 +184,8 @@ echo rand(1, 100);')); ?>
 			</h1>
 		</header>
 		<p>
-			Caching settings are stored in <?= scx('$cache') ?> variable
-			and are passed into the constructor of cacher class.
-			Each class have its own default settings. If you have
-			custom cacher class, you can use this variable to store
-			settings.
+			Caching settings are stored in <?= scx('$cache') ?> variable and are passed into the constructor of cacher class.
+			Each class have its own default settings. If you have custom cacher class, you can use this variable to store settings.
 		</p>
 	</section>
 
@@ -225,10 +223,8 @@ echo rand(1, 100);')); ?>
 			Every cacher class have to be inherited from this class.
 		</header>
 		<p>
-			This class contains two main methods get() and set(),
-			which provides cache interactions.
-			Also it contains getHashe() and hashBase() which responsible for
-			hash generation of a shippet.
+			This class contains two main methods get() and set(), which provides cache interactions.
+			Also it contains getHashe() and hashBase() which responsible for hash generation of a shippet.
 		</p>
 		<p>
 			Being a prototype for other cachers, this class contains
@@ -237,8 +233,7 @@ echo rand(1, 100);')); ?>
 		<ul>
 			<li><b>algo</b> &mdash; hashing algorithm. Default value is <?= scx('sha1') ?></li>
 			<li><b>random stuff</b> &mdash; must be a string, containing random chars</li>
-			<li><b>raw hash</b> &mdash; determines will be a hash returned binary or in hex format
-			</li>
+			<li><b>raw hash</b> &mdash; determines will be a hash returned binary or in hex format</li>
 		</ul>
 		<p>
 			This settings will be in <?= scx('settings') ?> class field. They are merged with defauls and settings from config:
@@ -252,9 +247,7 @@ echo rand(1, 100);')); ?>
     $this->settings = array_merge($defaults, $settings);
   }
 ', 'PHP') ?>
-		<p>
-			It is recommended to set <?= scx('random stuff', 'HTML') ?> value in config:
-		</p>
+		<p>It is recommended to set <?= scx('random stuff', 'HTML') ?> value in config:</p>
 		<pre><code class="PHP hljs">$cache[<span class="hljs-string">"random stuff"</span>]&nbsp;=&nbsp;<span class="hljs-string">"[[$random_stuff]]"</span>;</code></pre>
 	</section>
 
@@ -306,7 +299,10 @@ class Disabled extends Cacher {
 		</p>
 		<p>Default value is:</p>
 		<?= pcx('$defaults["path"] = $this->pinpie->root . DIRECTORY_SEPARATOR . "filecache";', 'PHP') ?>
-		Relative to the root of your site it's <?= scx('/filecache') ?> folder. It needs right to write to that folder from the user running PHP process.
+		<p>
+			Relative to the root of your site it's <?= scx('/filecache') ?> folder.
+			It needs right to write to that folder from the user running PHP process.
+		</p>
 		<p>
 			It is the simple, but very fast way to cache snippets. Until your OS have <b>free</b> unused memory, you will have
 			very fast caching, sometimes even faster than memcached. The disadvantage is that you have to clean
@@ -318,13 +314,15 @@ class Disabled extends Cacher {
 		<p>The advantages of this mode are:</p>
 		<ul>
 			<li>Very fast.</li>
-			<li>Works everywhere. Only requirement is permission to write to "filecache" folder. Can be used at hostings, which lack APCu or Memcache, and where you can't install PHP extensions.</li>
+			<li>
+				Works everywhere. Only requirement is permission to write to "filecache" folder.
+				Can be used at hostings, which lack APCu or Memcache, and where you can't install PHP extensions.
+			</li>
 		</ul>
 		<p>
 			This type of cache is fast, because modern OS stores recent files content in free unused memory.
 			All file access operations are highly optimized. So file cache performance could be faster even than Memcached
-			at unix socket.
-			Unfortunately, it can be the slowest.
+			at unix socket. Unfortunately, it can be the slowest.
 		</p>
 	</section>
 
@@ -362,39 +360,63 @@ class Disabled extends Cacher {
 			Based on <a href="http://php.net/manual/en/book.apcu.php">APCu</a> extension (former APC).
 			It doesn't have additional settings, only those from in Cacher class. Here is whole its code:
 		</p>
-		<?= pcx('
-namespace pinpie\pinpie\Cachers;
+		<?= pcx('namespace pinpie\pinpie\Cachers;
 
 use \pinpie\pinpie\PP;
 use \pinpie\pinpie\Tags\Tag;
 
-class APC extends Cacher {
-  protected $bc = false;
+class APCu extends Cacher {
+	/**
+	 * @var bool Will be true if APC or APCu functions are available. If APC or APCu is not detected - a message will be logged to default PinPIE log.
+	 */
+	protected $ok = false;
+	/**
+	 * @var bool Will be set to true to enable backward compatibility with PHP < 7
+	 */
+	protected $bc = false;
 
-  public function __construct(PP $pinpie, array $settings = []) {
-    if (function_exists(\'apc_fetch\')) {
-      $this->bc = true;
-    }
-    parent::__construct($pinpie, $settings);
-  }
 
-  public function get(Tag $tag) {
-    $hash = $this->getHash($tag);
-    if ($this->bc) {
-      return apc_fetch($hash);
-    } else {
-      return apcu_fetch($hash);
-    }
-  }
+	public function __construct(PP $pinpie, array $settings = []) {
+		parent::__construct($pinpie, $settings);
 
-  public function set(Tag $tag, $data, $time = 0) {
-    $hash = $this->getHash($tag);
-    if ($this->bc) {
-      return apc_store($hash, $data, $time);
-    } else {
-      return apcu_store($hash, $data, $time);
-    }
-  }
+		if (\function_exists(\'apcu_fetch\')) {
+			$this->ok = true;
+			$this->bc = false;
+		}
+		if (\function_exists(\'apc_fetch\')) {
+			$this->ok = true;
+			$this->bc = true;
+		}
+
+		if (!$this->ok) {
+			// APS is not installed !
+			$pinpie->logit(\'APC cache error: APC not installed. Check APC cacher class at pinpie/Cachers/APCu.php for more info.\');
+		}
+	}
+
+	public function get(Tag $tag) {
+		if (!$this->ok) {
+			return false;
+		}
+		$hash = $this->getHash($tag);
+		if ($this->bc) {
+			return \apc_fetch($hash);
+		} else {
+			return \apcu_fetch($hash);
+		}
+	}
+
+	public function set(Tag $tag, $data, $time = 0) {
+		if (!$this->ok) {
+			return false;
+		}
+		$hash = $this->getHash($tag);
+		if ($this->bc) {
+			return \apc_store($hash, $data, $time);
+		} else {
+			return \apcu_store($hash, $data, $time);
+		}
+	}
 
 }', 'php') ?>
 		<p>The fastest. APC works inside PHP process itself, have access to its memory and stores PHP values as is, which is the source of its speed.</p>
@@ -414,15 +436,12 @@ class APC extends Cacher {
 		</p>
 		<p>
 			In its work PinPIE uses two methods: <?= scx('get(pinpie\pinpie\Tags\Tag $tag)') ?> and
-			<?= scx('set(pinpie\pinpie\Tags\Tag $tag, $data, $time = 0)') ?>.
-			Passed parameters are:
+			<?= scx('set(pinpie\pinpie\Tags\Tag $tag, $data, $time = 0)') ?>. Passed parameters are:
 		</p>
 		<ul>
 			<li><b>$tag</b> &mdash; tag instance with all its settings</li>
 			<li><b>$data</b> &mdash; data that have to be cached with set(), and that PinPIE expect to get back from get()</li>
-			<li>
-				<b>$time</b> &mdash; storage time in seconds, optional. PinPIE will stores time and check it any way.
-			</li>
+			<li><b>$time</b> &mdash; storage time in seconds, optional. PinPIE will stores time and check it any way.</li>
 		</ul>
 		<p>
 			You can set cacher in config <?= scx('$pinpie["cache class"] = "\YourCacher";') ?>,
@@ -431,7 +450,6 @@ class APC extends Cacher {
 		</p>
 		<?= pcx('PinPIE::injectCacher($cacher);') ?>
 		<p>where <b>$cacher</b> is your class instance, inherited from <b>\PinPIE\Cacher</b> class.</p>
-
 	</section>
 
 	<section>
@@ -449,7 +467,8 @@ class APC extends Cacher {
 		</p>
 		<p>
 			PinPIE allow you to ignore url or GET-params, and set the cache hash generation rules.
-			Caching rules could be set in config file with <?= scx('$pinpie["cache rules"]') ?>. Here are the default rules:
+			Caching rules could be set in config file with <?= scx('$pinpie["cache rules"]') ?>.
+			Here are the default rules:
 		</p>
 		<?= pcx('"cache rules" => [
   "default" => ["ignore url" => false, "ignore query params" => false],

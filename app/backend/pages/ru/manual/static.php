@@ -5,16 +5,21 @@
 	<li><a href="/ru/manual/static#static-tags">Статик теги</a></li>
 	<li><a href="/ru/manual/static#time-hash">Хэш времени</a></li>
 	<li><a href="/ru/manual/static#servers-sharding">Шардинг серверов</a></li>
-	<li><a href="/ru/manual/static#custom-static-files-types">Кастомные типы</a></li>
+	<li><a href="/ru/manual/static#custom-types">Кастомные типы</a></li>
 	<li><a href="/ru/manual/static#compression">Сжатие</a></li>
 	<li><a href="/ru/manual/static#minification">Минификация</a></li>
 	<li><a href="/ru/manual/static#dimensions">Размеры</a></li>
-	<li><a href="/ru/manual/static#i-don't-want-this">Мне это не нужно</a></li>
+	<li><a href="/ru/manual/static#turn-off">Мне это не нужно</a></li>
 	<li><a href="/ru/manual/static#templates">Темплейты</a></li>
 </ul>
 ]]
 <article>
-	<header><h1>Статический контент</h1></header>
+	<header>
+		<h1>
+			<a name="" href="">#</a>
+			Статический контент
+		</h1>
+	</header>
 	<p>
 		Статические файлы это те, которые можно отослать человеку в браузер прямо с харда сервера безо всякой обработки.
 		Обычно это картинки, клиентские javascript файлы, файлы css и прочие им подобные.
@@ -31,7 +36,6 @@
 			Статик теги призваны обеспечить автоматическое использование таких фишек статических файлов как минификация,
 			сжатие gzip, и поддержка серверного шардинга.
 		</p>
-		<?= pcx('[[%тип=путь к файлу]]', 'html') ?>
 		<p>
 			Статик теги состоят из символа <b>%</b>; типа статик контента,
 			который берётся <b>не</b> из его расширения, а именно из самого тега;
@@ -43,9 +47,9 @@
 [[%css=/css/main.css]]
 [[%img=/images/avatar.png]]', 'html') ?>
 		<p>Эти теги будут заменены вот такими строками HTML-кода:</p>
-		<?= pcx(h('<script type="text/javascript" src="//pinpie.ru/javascript/jquery.min.js?time=956603fa2e94d0321f5cf24a77702331"></script>
-<link rel="stylesheet" type="text/css" href="//pinpie.ru/css/css.min.css?time=4ad3a55cc4b8e5ad0801d84959cde6b3">
-<img src="//pinpie.ru/images/avatar.png?time=b17c93f172020c8c4c0f324b048b3434" width="64" height="64">'), 'html') ?>
+		<?= pcx(h('<script type="text/javascript" src="//pinpie.rocks/javascript/jquery.min.js?time=956603fa2e94d0321f5cf24a77702331"></script>
+<link rel="stylesheet" type="text/css" href="//pinpie.rocks/css/css.min.css?time=4ad3a55cc4b8e5ad0801d84959cde6b3">
+<img src="//pinpie.rocks/images/avatar.png?time=b17c93f172020c8c4c0f324b048b3434" width="64" height="64">'), 'html') ?>
 		<h2>Только путь</h2>
 		<p>Если вам нужен не весь HTML-тег, а только путь, то просто поставьте восклицательный знак:</p>
 		<p>Синтаксис:</p>
@@ -53,10 +57,9 @@
 [[!%css=/css/main.css]]
 [[!%img=/images/avatar.png]]', 'html') ?>
 		<p>и получится только путь:</p>
-		<?= pcx('//pinpie.ru/javascript/jquery.min.js?time=956603fa2e94d0321f5cf24a77702331
-//pinpie.ru/css/css.min.css?time=4ad3a55cc4b8e5ad0801d84959cde6b3
-//pinpie.ru/images/avatar.png?time=b17c93f172020c8c4c0f324b048b3434', 'html') ?>
-
+		<?= pcx('//pinpie.rocks/javascript/jquery.min.js?time=956603fa2e94d0321f5cf24a77702331
+//pinpie.rocks/css/css.min.css?time=4ad3a55cc4b8e5ad0801d84959cde6b3
+//pinpie.rocks/images/avatar.png?time=b17c93f172020c8c4c0f324b048b3434', 'html') ?>
 		<p>То есть, да, вы можете использовать статик теги вот так:</p>
 		<?= pcx(h('<img class="avatar small" src="[[!%img=/images/avatar.png]]" title="nickname (online)">'), 'html') ?>
 		<h2>И с темплейтами</h2>
@@ -66,7 +69,7 @@
 		<p>Предположим, темплейт имеет такой код:</p>
 		<?= pcx(h('<img class="avatar small" src="[[*content]]">'), 'html') ?>
 		<p>и получается вот такой HTML:</p>
-		<?= pcx(h('<img class="avatar small" src="//pinpie.ru/images/avatar.png?time=b17c93f172020c8c4c0f324b048b3434">'), 'html') ?>
+		<?= pcx(h('<img class="avatar small" src="//pinpie.rocks/images/avatar.png?time=b17c93f172020c8c4c0f324b048b3434">'), 'html') ?>
 
 		<p>Подробнее про <a href="/ru/manual/static#templates">темплейты статик тегов </a> ниже.</p>
 
@@ -125,8 +128,8 @@
 			образом.
 		</p>
 		<p>
-			Список статик серверов задаётся в конфиге в массиве <?= scx('$static_servers', 'php') ?> и доступен глобально через
-			<?= scx('PinPIE::$conf->static_servers', 'php') ?>. По умолчанию это пустой массив, т.е. шардинг не осуществляется.
+			Список статик серверов задаётся в конфиге в массиве <?= scx('$tags["%"]["servers"]', 'php') ?> и доступен глобально через
+			<?= scx('PinPIE::$config->tags["%"]["servers"]', 'php') ?>. По умолчанию это пустой массив, т.е. шардинг не осуществляется.
 		</p>
 		<p>
 			Сервер выбирается в методе <?= scx('getServer($file)', 'php') ?> класса Staticon, где $file это путь к файлу внутри
@@ -136,10 +139,10 @@
 		</p>
 		<h3>Пример</h3>
 		<p>Этот конфиг будет распределять запросы статик файлов на три сервера:</p>
-		<?= pcx('$static_servers = [
-  "s1." . $pinpie["site url"],
-  "s2." . $pinpie["site url"],
-  "s3." . $pinpie["site url"],
+		<?= pcx('$tags["%"]["servers"] = [
+  "stat-1." . $pinpie["site url"],
+  "stat-2." . $pinpie["site url"],
+  "stat-3." . $pinpie["site url"],
 ];') ?>
 		<p>А этот тег</p>
 		<?= pcx('[[%img=jpg.jpg]]', 'html') ?>
@@ -246,22 +249,43 @@ $tags["%"]["minify function"] = function(){/.../};') ?>
 			Этот пример обрабатывает тег <?= scx('[[%css=/main.css]]') ?> и вызывает для минификации
 			<a href="http://yui.github.io/yuicompressor/" target="_blank">YUI Compressor</a> &mdash; внешний исполняемый java файл.
 		</p>
-		<?= pcx('function autominify($filepath, $minfilepath, $type) {
-  exec("java -jar /var/www/yuic.jar \"$filepath\" -o \"$minfilepath\" --type $type", $out, $err);
+		<?= pcx('$tags[\'%\'][\'minify function\'] = function (pinpie\pinpie\Tags\Staticon $tag) {
+  exec("java -jar /var/www/yuic.jar \"{$tag->filename}\" -o \"{$tag->minifiedPath}\" --type {$tag->type}", $out, $err);
   return true;
 }', 'php') ?>
+
+
+		<p>Или можно использовать библиотеку Matthias Mullie <a href="https://github.com/matthiasmullie/minify" title="GitHub">Minifie</a>, написанной на PHP.</p>
+
+		<?= pcx('$tags[\'%\'][\'minify function\'] = function (pinpie\pinpie\Tags\Staticon $tag) {
+	try {
+		if ($tag->staticType == \'css\') {
+			$minifier = new MatthiasMullie\Minify\CSS($tag->filename);
+			$minifier->minify($tag->minifiedPath);
+			return $tag->minifiedPath;
+		}
+		if ($tag->staticType == \'js\') {
+			$minifier = new MatthiasMullie\Minify\JS($tag->filename);
+			$minifier->minify($tag->minifiedPath);
+			return $tag->minifiedPath;
+		}
+	} catch (Throwable $th) {
+		return false;
+	}
+	return false;
+};', 'php') ?>
 		<p>Где:</p>
 		<ul>
 			<li>
-				<?= scx('$filepath') ?> путь к файлу из тега.
+				<?= scx('$tag->filename') ?> путь к файлу из тега.
 				Его значение <?= scx('$tags["%"]["folder"] . "/main.css"') ?>.
 			</li>
 			<li>
-				<?= scx('$minfilepath') ?> путь к минифицированной версии, которую нужно проверить.
+				<?= scx('$tag->minifiedPath') ?> путь к минифицированной версии, которую нужно проверить.
 				Значение: <?= scx('$tags["%"]["folder"] . "/main.min.css"') ?>
 			</li>
 			<li>
-				<?= scx('$type') ?> в данном случае это "css". Тип <b>не</b> берётся из расширения файла.
+				<?= scx('$tag->type') ?> в данном случае это "css". Тип <b>не</b> берётся из расширения файла.
 				Он берётся из %<b>css</b> типа тега.
 			</li>
 			<li>
@@ -307,7 +331,7 @@ $tags["%"]["minify function"] = function(){/.../};') ?>
 	<section>
 		<header>
 			<h1>
-				<a name="i-don't-want-this" href="#i-don't-want-this">#</a>
+				<a name="turn-off" href="#turn-off">#</a>
 				Мне это не нужно
 			</h1>
 		</header>

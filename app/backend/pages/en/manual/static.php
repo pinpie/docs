@@ -48,9 +48,9 @@
 [[%css=/css/main.css]]
 [[%img=/images/avatar.png]]', 'html') ?>
 		<p>This tags will be replaced by default with lines of html-code like this:</p>
-		<?= pcx(h('<script type="text/javascript" src="//pinpie.ru/javascript/jquery.min.js?time=956603fa2e94d0321f5cf24a77702331"></script>
-<link rel="stylesheet" type="text/css" href="//pinpie.ru/css/css.min.css?time=4ad3a55cc4b8e5ad0801d84959cde6b3">
-<img src="//pinpie.ru/images/avatar.png?time=b17c93f172020c8c4c0f324b048b3434" width="64" height="64">'), 'html') ?>
+		<?= pcx(h('<script type="text/javascript" src="//pinpie.rocks/javascript/jquery.min.js?time=956603fa2e94d0321f5cf24a77702331"></script>
+<link rel="stylesheet" type="text/css" href="//pinpie.rocks/css/css.min.css?time=4ad3a55cc4b8e5ad0801d84959cde6b3">
+<img src="//pinpie.rocks/images/avatar.png?time=b17c93f172020c8c4c0f324b048b3434" width="64" height="64">'), 'html') ?>
 		<h2>Path only</h2>
 		<p>If you doesn't need a full html-tag, but the path only, just use exclamation mark:</p>
 		<p> Syntax:</p>
@@ -58,10 +58,9 @@
 [[!%css=/css/main.css]]
 [[!%img=/images/avatar.png]]', 'html') ?>
 		<p>and this will give you only paths:</p>
-
-		<?= pcx('//pinpie.ru/javascript/jquery.min.js?time=956603fa2e94d0321f5cf24a77702331
-//pinpie.ru/css/css.min.css?time=4ad3a55cc4b8e5ad0801d84959cde6b3
-//pinpie.ru/images/avatar.png?time=b17c93f172020c8c4c0f324b048b3434', 'html') ?>
+		<?= pcx('//pinpie.rocks/javascript/jquery.min.js?time=956603fa2e94d0321f5cf24a77702331
+//pinpie.rocks/css/css.min.css?time=4ad3a55cc4b8e5ad0801d84959cde6b3
+//pinpie.rocks/images/avatar.png?time=b17c93f172020c8c4c0f324b048b3434', 'html') ?>
 		<p>So, yes, you can use static tags like this:</p>
 		<?= pcx(h('<img class="avatar small" src="[[!%img=/images/avatar.png]]" title="nickname (online)">'), 'html') ?>
 		<h2>And with templates</h2>
@@ -71,11 +70,12 @@
 		<p>Assuming template code is like this:</p>
 		<?= pcx(h('<img class="avatar small" src="[[*content]]">'), 'html') ?>
 		<p>you'll get this html:</p>
-		<?= pcx(h('<img class="avatar small" src="//pinpie.ru/images/avatar.png?time=b17c93f172020c8c4c0f324b048b3434">'), 'html') ?>
+		<?= pcx(h('<img class="avatar small" src="//pinpie.rocks/images/avatar.png?time=b17c93f172020c8c4c0f324b048b3434">'), 'html') ?>
 
 		<p>Read more about <a href="/en/manual/static#templates">static tags templates</a> below.</p>
 
 	</section>
+
 	<section>
 		<header>
 			<h1>
@@ -125,7 +125,7 @@
 		</p>
 		<p>
 			List of static content servers is to be set in config file by <?= scx('$tags["%"]["servers"]', 'php') ?> variable
-			and is accessible outside via <?= scx('PinPIE::$conf->tags["%"]["servers"]', 'php') ?>. Default value is an empty array.
+			and is accessible outside via <?= scx('PinPIE::$config->tags["%"]["servers"]', 'php') ?>. Default value is an empty array.
 		</p>
 		<p>
 			Server is chosen by <?= scx('Staticon::getServer($file)', 'php') ?> method, where $file is path to file inside
@@ -248,15 +248,19 @@ $tags["%"]["minify function"] = function(){/.../};') ?>
 		<p>Or you can use Matthias Mullie's <a href="https://github.com/matthiasmullie/minify" title="GitHub">Minifie</a>, written in PHP.</p>
 
 		<?= pcx('$tags[\'%\'][\'minify function\'] = function (pinpie\pinpie\Tags\Staticon $tag) {
-	if ($tag->type == \'css\') {
-		$minifier = new MatthiasMullie\Minify\CSS($tag->filename);
-		$minifier->minify($tag->minifiedPath);
-		return $tag->minifiedPath;
-	}
-	if ($tag->type == \'js\') {
-		$minifier = new MatthiasMullie\Minify\JS($tag->filename);
-		$minifier->minify($tag->minifiedPath);
-		return $tag->minifiedPath;
+	try {
+		if ($tag->staticType == \'css\') {
+			$minifier = new MatthiasMullie\Minify\CSS($tag->filename);
+			$minifier->minify($tag->minifiedPath);
+			return $tag->minifiedPath;
+		}
+		if ($tag->staticType == \'js\') {
+			$minifier = new MatthiasMullie\Minify\JS($tag->filename);
+			$minifier->minify($tag->minifiedPath);
+			return $tag->minifiedPath;
+		}
+	} catch (Throwable $th) {
+		return false;
 	}
 	return false;
 };', 'php') ?>

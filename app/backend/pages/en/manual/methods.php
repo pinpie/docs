@@ -32,7 +32,9 @@
 		<header>
 			<h1>
 				<a name="cacherGet" href="#cacherGet">#</a>
-				PinPIE::cacherGet<wbr>()
+				PinPIE::cacherGet
+				<wbr>
+				()
 			</h1>
 		</header>
 		<p>Provides access to current cacher object.</p>
@@ -42,7 +44,9 @@
 		<header>
 			<h1>
 				<a name="cacherSet" href="#cacherSet">#</a>
-				PinPIE::cacherSet<wbr>(pinpie\pinpie\Cachers\Cacher $cacher)
+				PinPIE::cacherSet
+				<wbr>
+				(pinpie\pinpie\Cachers\Cacher $cacher)
 			</h1>
 		</header>
 		<p>
@@ -55,7 +59,9 @@
 		<header>
 			<h1>
 				<a name="checkPathIsInFolder" href="#checkPathIsInFolder">#</a>
-				PinPIE::checkPathIsInFolder<wbr>($path, $folder)
+				PinPIE::checkPathIsInFolder
+				<wbr>
+				($path, $folder)
 			</h1>
 		</header>
 		<p>
@@ -69,19 +75,21 @@
 		<header>
 			<h1>
 				<a name="getUrlInfo" href="#getUrlInfo">#</a>
-				PinPIE::getUrlInfo<wbr>($template)
+				PinPIE::getUrlInfo
+				<wbr>
+				($template)
 			</h1>
 		</header>
 		<p>Looks for page file corresponding provided url path. Returns URL instance or false on fail.</p>
 		<p>In case of no page file were found, you can use config value:</p>
-		<?= pcx('PinPIE::$conf->pinpie["page not found"]') ?>
+		<?= pcx('PinPIE::$config->pinpie["page not found"]') ?>
 	</section>
 
 	<section>
 		<header>
 			<h1>
 				<a name="newInstance" href="#newInstance">#</a>
-				PinPIE::newInstance<wbr>($settings)
+				PinPIE::renderPage($settings)
 			</h1>
 		</header>
 		<p>
@@ -94,9 +102,10 @@
 		<header>
 			<h1>
 				<a name="newPage" href="#newPage">#</a>
-				PinPIE::newPage<wbr>($page)
+				PinPIE::newPage
+				<wbr>
+				($page)
 			</h1>
-			<b><i>experimental</i></b>
 		</header>
 		<p>
 			Switches a page instead of current. Experimental, but works fine.
@@ -107,7 +116,7 @@
 		<header>
 			<h1>
 				<a name="parseString" href="#parseString">#</a>
-				PinPIE::parseString<wbr>($string)
+				PinPIE::parseString($string)
 			</h1>
 		</header>
 		<p>Parses string and returns rendered result.</p>

@@ -1,8 +1,17 @@
 [title[=Роутинг]]
 [sidemenu[ru/manual/sidemenu]]
+[menu routing[=
+<ul>
+	<li><a href="/ru/manual/routing#route-to-parent">Route to parent</a></li>
+	<li><a href="/ru/manual/routing#url-class">URL Class</a></li>
+</ul>
+]]
 <article>
-  <header>
-    <h1>Роутинг</h1>
+	<header>
+		<h1>
+			<a name="" href="">#</a>
+			Роутинг
+		</h1>
   </header>
 
   <section>
@@ -20,9 +29,19 @@
     </p>
     <p>
       По умолчанию значение <?= scx('$pinpie["page not found"]') ?> это <span><code class="html">index.php</span></code>.
-      Но крайне <b>настоятельно рекомендую создать специальную страницу</b> для обработки ненайденных страниц.
+	    PinPIE ожидает, что этот файл находится прямо в корне в папке со страницами и использует его, если для запрошенного URL не нашлось подходящего файла страницы.
+      Но я крайне рекомендую создать специальную страницу для обработки ненайденных страниц.
       Она будет отображаться в ответ на эти запросы.
     </p>
+		<p>
+			Замечу, что в <a href="/ru/manual/config">конфиге</a> ты можешь изменить <a href="/ru/manual/config#index">файл индекса папки</a>.
+			Эта настройка позволяет задать название файла индекса, который используется в роутинге.
+			Если задать другое значение, то именно файл с таким названием будет использован, если запрошенный путь это папка.
+			Например, если задашь его равным <span class="xml"><code>someothername.php</code></span>,
+			а URL запроса <span><code>/about</code></span> ведёт в папку, то PinPIE будет искать именно
+			<span><code>/pages/about/someothername.php</code></span>, а не <span><code>/pages/about/index.php</code></span> в случае если
+			<span><code>/pages/about.php</code></span> не существует.
+		</p>
   </section>
 
   <section>
@@ -33,7 +52,7 @@
       </h1>
     </header>
     <p>
-      Если в конфиге установлено значение <?= scx('PinPIE::$conf->pinpie["route to parent"]') ?> и оно  больше нуля,
+      Если в конфиге установлено значение <?= scx('PinPIE::$config->pinpie["route to parent"]') ?> и оно  больше нуля,
       то PinPIE будет пробовать найти другие файлы, сообразно запрошенному пути.
     </p>
     <p>
@@ -43,8 +62,8 @@
       <span><code>/pages/very/long.php</span></code> и <span><code>/pages/very/long/index.php</span></code>.
     </p>
     <p>
-      Эта операция будет повторяться максимум <?= scx('PinPIE::$conf->pinpie["route to parent"]') ?> раз, и если не будет найден
-      подходящий файл &mdash; запрошенный URL будет считаться ненайденным.
+      Эта операция будет повторяться максимум <?= scx('PinPIE::$config->pinpie["route to parent"]') ?> раз,
+	    и если не будет найден подходящий файл &mdash; запрошенный URL будет считаться ненайденным.
     </p>
     <p>
       Если первая оставшаяся часть запроса "/very" не будет найдена, то запрос <b>не будет</b> направляться на
@@ -60,7 +79,7 @@
       <li>2 и более &mdash; перенаправляется выше по пути</li>
     </ul>
     <p>
-      Эта механика позволяет вам обрабатывать запросы вроде <span><code>/news/42</span></code> или <span><code>/news/42/edit</span></code>
+      Эта механика позволяет обрабатывать запросы вроде <span><code>/news/42</span></code> или <span><code>/news/42/edit</span></code>
       в одном файле <span><code>/pages/news.php</span></code> или <span><code>/pages/news/index.php</span></code>.
     </p>
     <p>Например, я предпочитаю делать так:</p>
@@ -71,4 +90,47 @@
     </ul>
     <p>В файле <?=scx('/pages/news/index.php')?> для отрисовки списка и отдельной новости можно использовать разные <a href="/ru/manual/tags#snippet">сниппеты</a>. Сниппеты удобно <a href="/ru/manual/cache">кешировать</a>.</p>
   </section>
+
+	<section>
+
+		<header>
+			<h1>
+				<a name="url-class" href="#url-class">#</a>
+				Класс URL
+			</h1>
+		</header>
+
+		<p>
+			Информация о текущем URL хранится в переменной PinPIE::$url.
+			Некоторые поля этого класса это просто заполенны значениями, которые возвращает функция
+			<a href="http://php.net/manual/en/function.parse-url.php">parse_url()</a>: scheme, host, port, user, pass, path, query и fragment.
+			Так же поле <?= scx('parsed') ?> содержит весь массив, кторый возвращает parse_url(), так что его можно использовать в
+			функции <a href="http://php.net/manual/en/function.parse-str.php">parse_str()</a>.
+			Другие же - переменные PinPIE. Они доступны глобально через PinPIE::$url, например  PinPIE::$url->path. Вот полный список:
+		</p>
+
+		<ul>
+			<li>url &mdash; тот самый URL, который парсили.</li>
+			<li>file &mdash; Найденный файл страницы. Если же файл не был найден &mdash; значение будет false.</li>
+			<li>found &mdash; Этот флаг будет true если файл был найден или false, если не был.</li>
+			<li>foundUrl &mdash; Массив. Та часть URL, которая была найдена на диске, см. <a href="#route-to-parent">route to parent</a>.</li>
+			<li>params &mdash; Массив с частями URL после foundUrl.</li>
+			<li>parsed &mdash; Содержит массив, который вернула функция parse_url().</li>
+		</ul>
+
+		<h2>Пример</h2>
+
+		<p>
+			Допустим, есть файл <?= scx('/pages/some/file.php') ?>,
+			и если запрошенный URL это <?= scx('/some/file/and/something/else', 'HTML') ?>,
+			то переменные будут такими:
+		</p>
+		<ul>
+			<li>PinPIE::$url->url &mdash; (string) <?= scx('/some/file/and/something/else', 'HTML') ?></li>
+			<li>PinPIE::$url->file &mdash; (string) <?= scx('/pages/some/file.php') ?></li>
+			<li>PinPIE::$url->found &mdash; (boolean) <?= scx('true') ?></li>
+			<li>PinPIE::$url->foundUrl &mdash; (array) <?= scx('["some", "file"]') ?></li>
+			<li>PinPIE::$url->params &mdash; (array) <?= scx('["and", "something", "else"]') ?></li>
+		</ul>
+	</section>
 </article>
